@@ -17,7 +17,7 @@ universe variables u v
 --   pentagon_3step m = pentagon_2step m :=
 --   begin 
 --     dsimp,
---     -- FIXME this apply runs forever???
+--     -- FIXME this apply takes 15 minutes ???
 --     -- apply NaturalTransformations_componentwise_equal,
 --     congr_struct,
 --     {
