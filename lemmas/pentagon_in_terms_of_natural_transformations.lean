@@ -12,8 +12,6 @@ namespace tqft.categories.monoidal_category
 
 universe variables u v
 
--- set_option pp.implicit true
-
 -- lemma pentagon_in_terms_of_natural_transformations
 --    { C : Category.{u v} } ( m : MonoidalStructure C ) :
 --   pentagon_3step m = pentagon_2step m :=
@@ -24,7 +22,7 @@ universe variables u v
 --     congr_struct,
 --     {
 --       tidy,
---       exact m.pentagon _ _ _ _
+--       exact m.pentagon _ _ _ _ -- TODO it would be nice if this could be automated...
 --     },
 --     -- the remaining goals created by congr_struct are annoying...
 --     admit
