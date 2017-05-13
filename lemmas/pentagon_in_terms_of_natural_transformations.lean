@@ -18,14 +18,14 @@ lemma pentagon_in_terms_of_natural_transformations
   begin 
     dsimp,
     -- FIXME this apply runs forever???
-    apply NaturalTransformations_componentwise_equal,
-    -- congr_struct,
+    -- apply NaturalTransformations_componentwise_equal,
+    congr_struct,
     {
       tidy,
       exact m.pentagon _ _ _ _ -- TODO it would be nice if this could be automated...
     },
     -- the remaining goals created by congr_struct are annoying...
-    -- admit
+    admit
   end
 
 end tqft.categories.monoidal_category
