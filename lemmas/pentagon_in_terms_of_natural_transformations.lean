@@ -12,20 +12,20 @@ namespace tqft.categories.monoidal_category
 
 universe variables u v
 
--- lemma pentagon_in_terms_of_natural_transformations
---    { C : Category.{u v} } ( m : MonoidalStructure C ) :
---   pentagon_3step m = pentagon_2step m :=
---   begin 
---     dsimp,
---     -- FIXME this apply runs forever???
---     -- apply NaturalTransformations_componentwise_equal,
---     congr_struct,
---     {
---       tidy,
---       exact m.pentagon _ _ _ _ -- TODO it would be nice if this could be automated...
---     },
---     -- the remaining goals created by congr_struct are annoying...
---     admit
---   end
+lemma pentagon_in_terms_of_natural_transformations
+   { C : Category.{u v} } ( m : MonoidalStructure C ) :
+  pentagon_3step m = pentagon_2step m :=
+  begin 
+    dsimp,
+    -- FIXME this apply runs forever???
+    apply NaturalTransformations_componentwise_equal,
+    -- congr_struct,
+    {
+      tidy,
+      exact m.pentagon _ _ _ _ -- TODO it would be nice if this could be automated...
+    },
+    -- the remaining goals created by congr_struct are annoying...
+    -- admit
+  end
 
 end tqft.categories.monoidal_category
