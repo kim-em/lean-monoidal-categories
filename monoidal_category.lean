@@ -108,9 +108,9 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
   ( X Y : C.Obj ) :
    @Functor.onMorphisms _ _ (m.tensor) (X, Y) (X, Y) (C.identity X, C.identity Y) = C.identity (m.tensor.onObjects (X, Y)) := 
    begin
-    --  begin[smt]
-    --    eblast -- FIXME runs forever
-    --  end,
+     begin[smt]
+       eblast -- FIXME runs forever
+     end,
      rewrite - m.tensor.identities,
      tidy
    end
