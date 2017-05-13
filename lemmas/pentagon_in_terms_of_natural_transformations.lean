@@ -14,24 +14,20 @@ universe variables u v
 
 -- set_option pp.implicit true
 
--- FIXME get this working again
 -- lemma pentagon_in_terms_of_natural_transformations
 --    { C : Category.{u v} } ( m : MonoidalStructure C ) :
 --   pentagon_3step m = pentagon_2step m :=
---   begin
+--   begin 
 --     dsimp,
---     apply NaturalTransformations_componentwise_equal,
---     intros,
---     unfold_unfoldable, -- FIXME why does this hit the iteration limit?
---     induction X with PQR S,
---     induction PQR with PQ R,
---     induction PQ with P Q,
---     unfold_unfoldable,
---     -- erewrite m.pentagon P Q R S, --- TODO This is pretty weird; Pentagon has λs in it.
---     pose p := m.pentagon P Q R S,
---     simp at p,
---     dsimp at p,
---     exact p
+--     -- FIXME this apply runs forever???
+--     -- apply NaturalTransformations_componentwise_equal,
+--     congr_struct,
+--     {
+--       tidy,
+--       exact m.pentagon _ _ _ _
+--     },
+--     -- the remaining goals created by congr_struct are annoying...
+--     admit
 --   end
 
 end tqft.categories.monoidal_category
