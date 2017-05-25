@@ -12,6 +12,8 @@ open tqft.categories.braided_monoidal_category
 
 namespace tqft.categories.monoidal_category
 
+local attribute [pointwise] Functors_pointwise_equal
+
 definition SymmetryOnCartesianProductOfCategories : Symmetry CartesianProductOfCategories := {
   braiding             := {
     morphism  := {

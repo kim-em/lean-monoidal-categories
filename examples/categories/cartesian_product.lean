@@ -14,6 +14,8 @@ namespace tqft.categories.monoidal_category
 
 universe variables u v
 
+local attribute [pointwise] Functors_pointwise_equal
+
 definition TensorProductOfCategories : TensorProduct CategoryOfCategoriesAndFunctors.{u v} := {
     onObjects     := λ p, ProductCategory p.1 p.2,
     onMorphisms   := λ _ _ p, ProductFunctor p.1 p.2,

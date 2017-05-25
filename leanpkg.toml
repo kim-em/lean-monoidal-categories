@@ -3,4 +3,4 @@ name = "monoidal-categories"
 version = "0.1"
 
 [dependencies]
-lean-category-theory = { git = "https://github.com/semorrison/lean-category-theory", rev = "7789b1ba6981f408b0e5777ee731831ff19a6f6b" }
+lean-category-theory = { git = "https://github.com/semorrison/lean-category-theory", rev = "56e8795170e56d0599f21c2845060143c35dc700" }
