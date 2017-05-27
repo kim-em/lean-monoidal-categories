@@ -2,8 +2,8 @@
 -- Released under Apache 2.0 license as described in the file LICENSE.
 -- Authors: Stephen Morgan, Scott Morrison
 
-import isomorphism
-import types
+import category_theory.isomorphism
+import category_theory.types
 
 namespace tqft.categories.examples.types
 

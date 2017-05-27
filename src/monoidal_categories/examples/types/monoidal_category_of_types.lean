@@ -3,7 +3,7 @@
 -- Authors: Stephen Morgan, Scott Morrison
 
 import ...braided_monoidal_category
-import types
+import category_theory.types
 
 namespace tqft.categories.types
 
