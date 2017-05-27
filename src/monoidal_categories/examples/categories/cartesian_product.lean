@@ -2,8 +2,8 @@
 -- Released under Apache 2.0 license as described in the file LICENSE.
 -- Authors: Stephen Morgan, Scott Morrison
 import ...monoidal_category
-import discrete_category
-import universal.categories
+import category_theory.discrete_category
+import category_theory.universal.categories
 
 open tqft.categories
 open tqft.categories.functor
