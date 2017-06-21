@@ -13,17 +13,17 @@ open tqft.categories.universal
 namespace tqft.categories.monoidal_category
 
 -- FIXME where do these lost meta-variables come from?
-definition LeftUnitor_for_Products ( C : Category ) [ has_FiniteProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) :=
+definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) :=
 begin
   tidy, 
 end
 
--- definition RightUnitor_for_Products ( C : Category ) [ has_FiniteProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) :=
+-- definition RightUnitor_for_Products ( C : Category ) [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) :=
 -- begin
 --   tidy, 
 -- end
 
--- definition MonoidalStructure_from_Products { C : Category } [ has_FiniteProducts C ] : MonoidalStructure C :=
+-- definition MonoidalStructure_from_Products { C : Category } [ has_BinaryProducts C ] : MonoidalStructure C :=
 -- {
 --     tensor := TensorProduct_from_Products C,
 --     tensor_unit := terminal_object,
