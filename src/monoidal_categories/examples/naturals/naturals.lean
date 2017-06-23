@@ -15,7 +15,7 @@ lemma nat_add_left_cancel_iff (a b : ℕ) : a + b = a ↔ b = 0 :=
 @[simp]
 lemma nat_add_right_cancel_iff (a b : ℕ) : a + b = b ↔ a = 0 :=
 begin
-  note h := @add_right_cancel_iff _ _ b a 0,
+  have h := @add_right_cancel_iff _ _ b a 0,
   simp at h,
   exact h
 end

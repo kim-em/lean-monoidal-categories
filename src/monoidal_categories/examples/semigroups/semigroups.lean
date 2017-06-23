@@ -36,8 +36,8 @@ definition {u} semigroup_morphism_composition
 begin
     induction f with fc,
     induction g with gc,
-    have hc : fc = gc, from funext w,
-    by subst hc
+    have hc : fc = gc := funext w,
+    subst hc
 end
 
 definition {u} CategoryOfSemigroups : Category := 
