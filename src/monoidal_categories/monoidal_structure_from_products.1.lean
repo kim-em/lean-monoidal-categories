@@ -3,14 +3,14 @@
 -- Authors: Scott Morrison
 import .monoidal_structure_from_products
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
-open tqft.categories.monoidal_category
-open tqft.categories.universal
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
+open categories.monoidal_category
+open categories.universal
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 -- FIXME where do these lost meta-variables come from?
 definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) :=
@@ -37,4 +37,4 @@ end
 -- PROJECT show that this monoidal structure is uniquely braided
 -- PROJECT and that braiding is symmetric
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

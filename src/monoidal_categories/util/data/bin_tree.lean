@@ -1,8 +1,8 @@
 import .nonempty_list
 
-open tqft.util.data.nonempty_list
+open util.data.nonempty_list
 
-namespace tqft.util.data.bin_tree
+namespace util.data.bin_tree
 
 universes u v
 
@@ -50,4 +50,4 @@ lemma lopsided_idempotent (t : bin_tree α) : t.lopsided.lopsided = t.lopsided :
 
 end bin_tree
 
-end tqft.util.data.bin_tree
+end util.data.bin_tree

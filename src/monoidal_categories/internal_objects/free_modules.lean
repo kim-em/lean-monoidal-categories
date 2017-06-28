@@ -3,11 +3,11 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .monoids
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.monoidal_category
+open categories
+open categories.functor
+open categories.monoidal_category
 
-namespace tqft.categories.internal_objects
+namespace categories.internal_objects
 
 -- set_option pp.max_steps 50000
 -- set_option pp.implicit true
@@ -60,4 +60,4 @@ namespace tqft.categories.internal_objects
 -- PROJECT bimodules
 -- PROJECT commutative algebras; modules give bimodules
 
-end tqft.categories.internal_objects
+end categories.internal_objects

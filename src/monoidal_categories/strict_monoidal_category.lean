@@ -3,14 +3,14 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .monoidal_category
 
-open tqft.categories
-open tqft.categories.isomorphism
-open tqft.categories.functor
-open tqft.categories.natural_transformation
-open tqft.categories.products
-open tqft.categories.monoidal_category
+open categories
+open categories.isomorphism
+open categories.functor
+open categories.natural_transformation
+open categories.products
+open categories.monoidal_category
 
-namespace tqft.categories.strict_monoidal_category
+namespace categories.strict_monoidal_category
 
 structure TensorProduct_is_strict { C : Category } ( tensor : TensorProduct C ) ( tensor_unit : C.Obj ) :=
   ( associativeOnObjects  : ∀ X Y Z : C.Obj, tensor.onObjects (tensor.onObjects (X, Y), Z) = tensor.onObjects (X, tensor.onObjects (Y, Z)) )
@@ -90,4 +90,4 @@ attribute [ematch] TensorProduct_is_strict.associativeOnObjects
 -- * construct a functor from C
 -- * show that it is part of an equivalence
 
-end tqft.categories.strict_monoidal_category
+end categories.strict_monoidal_category

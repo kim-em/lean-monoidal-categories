@@ -6,13 +6,13 @@ import .tensor_with_object
 
 --set_option pp.universes true
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
-open tqft.categories.monoidal_category
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
+open categories.monoidal_category
 
-namespace tqft.categories.drinfeld_centre
+namespace categories.drinfeld_centre
 
 structure {u v} HalfBraiding { C : Category.{u v} } ( m : MonoidalStructure C ) :=
     (object   : C.Obj)
@@ -82,4 +82,4 @@ definition {u v} DrinfeldCentre { C : Category.{u v} } ( m : MonoidalStructure C
   associativity  := ♯
 }
 
-end tqft.categories.drinfeld_centre
+end categories.drinfeld_centre

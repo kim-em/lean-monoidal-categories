@@ -4,13 +4,13 @@
 import .monoidal_category
 import category_theory.products.switch
 
-namespace tqft.categories.braided_monoidal_category
+namespace categories.braided_monoidal_category
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.natural_transformation
-open tqft.categories.products
-open tqft.categories.monoidal_category
+open categories
+open categories.functor
+open categories.natural_transformation
+open categories.products
+open categories.monoidal_category
 
 universe variables u v
 
@@ -65,4 +65,4 @@ structure Symmetry { C : Category.{u v} } ( m : MonoidalStructure C ) extends pa
 
 attribute [simp,ematch] Symmetry.symmetry
 
-end tqft.categories.braided_monoidal_category
+end categories.braided_monoidal_category

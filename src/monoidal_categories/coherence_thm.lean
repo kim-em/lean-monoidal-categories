@@ -3,13 +3,13 @@ import .util.data.nonempty_list
 import .util.data.bin_tree
 import .util.data.bin_tree.cong_clos
 
-open tqft.categories
-open tqft.categories.monoidal_category
-open tqft.util.data.nonempty_list
-open tqft.util.data.bin_tree
-open tqft.util.data.bin_tree.bin_tree
+open categories
+open categories.monoidal_category
+open util.data.nonempty_list
+open util.data.bin_tree
+open util.data.bin_tree.bin_tree
 
-namespace tqft.categories.monoidal_category.coherence_thm
+namespace categories.monoidal_category.coherence_thm
 
 universes u v
 
@@ -394,4 +394,4 @@ lemma step_lopsided_heq {s t : bin_tree α} (p : reassoc_dir_step s t) : step_lo
 
 end interpretation
 
-end tqft.categories.monoidal_category.coherence_thm
+end categories.monoidal_category.coherence_thm

@@ -4,10 +4,10 @@
 import .semigroup_modules
 import .monoids
 
-open tqft.categories
-open tqft.categories.monoidal_category
+open categories
+open categories.monoidal_category
 
-namespace tqft.categories.internal_objects
+namespace categories.internal_objects
 
 structure ModuleObject { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) extends SemigroupModuleObject A.to_SemigroupObject :=
   ( identity  : C.compose (m.left_unitor.inverse.components module)  (C.compose (m.tensorMorphisms A.unit (C.identity module)) action) = C.identity module )
@@ -40,4 +40,4 @@ structure ModuleMorphism { C : Category } { m : MonoidalStructure C } { A : Mono
 --   associativity  := ♮
 -- }
 
-end tqft.categories.internal_objects
+end categories.internal_objects

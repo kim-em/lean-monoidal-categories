@@ -1,9 +1,9 @@
 import ..bin_tree
 import ..nonempty_list
 
-open tqft.util.data.nonempty_list
-open tqft.util.data.bin_tree
-open tqft.util.data.bin_tree.bin_tree
+open util.data.nonempty_list
+open util.data.bin_tree
+open util.data.bin_tree.bin_tree
 
 universes u v
 

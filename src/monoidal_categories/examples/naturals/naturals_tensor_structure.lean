@@ -4,13 +4,13 @@
 import .naturals
 import ...monoidal_category
 
-namespace tqft.categories.examples.naturals
+namespace categories.examples.naturals
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.natural_transformation
-open tqft.categories.products
-open tqft.categories.monoidal_category
+open categories
+open categories.functor
+open categories.natural_transformation
+open categories.products
+open categories.monoidal_category
 
 -- definition ℕTensorProduct : TensorProduct ℕCategory :=
 --   { onObjects     := prod.fst,
@@ -65,4 +65,4 @@ open tqft.categories.monoidal_category
 --   all_goals { admit }
 --  end 
 
-end tqft.categories.examples.naturals
+end categories.examples.naturals

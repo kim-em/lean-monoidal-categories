@@ -3,10 +3,10 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import ..monoidal_category
 
-open tqft.categories
-open tqft.categories.monoidal_category
+open categories
+open categories.monoidal_category
 
-namespace tqft.categories.internal_objects
+namespace categories.internal_objects
 
 structure SemigroupObject { C : Category } ( m : MonoidalStructure C ) :=
   ( object         : C.Obj )
@@ -18,4 +18,4 @@ attribute [ematch] SemigroupObject.associativity
 instance SemigroupObject_coercion_to_object { C : Category } { m : MonoidalStructure C } : has_coe (SemigroupObject m) (C.Obj) :=
   { coe := SemigroupObject.object }
 
-end tqft.categories.internal_objects
+end categories.internal_objects

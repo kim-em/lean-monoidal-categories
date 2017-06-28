@@ -4,10 +4,10 @@
 
 import ..monoidal_category
 
-open tqft.categories
-open tqft.categories.monoidal_category
+open categories
+open categories.monoidal_category
 
-namespace tqft.categories.examples
+namespace categories.examples
 
 -- PROJECT none of these proofs work, because we're not using type classes, because type classes don't resolve correctly here.
 
@@ -42,4 +42,4 @@ namespace tqft.categories.examples
 --   ( object  : Obj )
 --   ( witness : ∀ X : Obj, X = object )
 
-end tqft.categories.examples
+end categories.examples

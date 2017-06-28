@@ -3,12 +3,12 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import category_theory.products.associator
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 universe variables u v
 
@@ -52,4 +52,4 @@ definition right_associated_triple_tensor { C : Category.{ u v } } ( tensor : Te
     C.compose (α X I Y) (tensorMorphisms (C.identity X) (left_unitor.morphism.components Y))
   = tensorMorphisms (right_unitor.morphism.components X) (C.identity Y)
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

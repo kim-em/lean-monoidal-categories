@@ -3,12 +3,12 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .pentagon_in_terms_of_natural_transformations_definitions
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 universe variables u v
 
@@ -25,4 +25,4 @@ universe variables u v
 --     },
 -- end
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

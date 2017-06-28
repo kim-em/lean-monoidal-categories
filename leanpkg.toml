@@ -4,4 +4,4 @@ version = "0.1"
 path = "src"
 
 [dependencies]
-lean-category-theory = { git = "https://github.com/semorrison/lean-category-theory", rev = "9910a81bf006e37364d34b180a9fe32161365300" }
+lean-category-theory = { git = "https://github.com/semorrison/lean-category-theory", rev = "607825a23d2d1c3d330b208cc9c784f0586e4d2d" }

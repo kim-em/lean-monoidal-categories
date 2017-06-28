@@ -5,11 +5,11 @@
 import ...braided_monoidal_category
 import .semigroups
 
-open tqft.categories.natural_transformation
+open categories.natural_transformation
 
-namespace tqft.categories.examples.semigroups
+namespace categories.examples.semigroups
 
-open tqft.categories.monoidal_category
+open categories.monoidal_category
 
 -- definition {u} semigroup_product { α β : Type u } ( s : semigroup α ) ( t: semigroup β ) : semigroup (α × β) := {
 --   mul := λ p q, (p.fst * q.fst, p.snd * q.snd),
@@ -43,7 +43,7 @@ set_option pp.all true
 
 -- PROJECT really this should be a special case of the (uniquely braided, symmetric) monoidal structure coming from a product.
 
--- open tqft.categories.products
+-- open categories.products
 
 -- definition TensorProduct_for_Semigroups : TensorProduct CategoryOfSemigroups := {
 --     onObjects     := λ p, ⟨ p.1.1 × p.2.1, semigroup_product p.1.2 p.2.2 ⟩,
@@ -122,8 +122,8 @@ set_option pp.all true
 --   triangle := ♯
 -- }
 
--- open tqft.categories.natural_transformation
--- open tqft.categories.braided_monoidal_category
+-- open categories.natural_transformation
+-- open categories.braided_monoidal_category
 
 -- Commented out while I work on an alternative.
 -- definition SymmetryOnCategoryOfSemigroups : Symmetry MonoidalStructureOnCategoryOfSemigroups := {
@@ -150,4 +150,4 @@ set_option pp.all true
 --   symmetry  := ♮
 -- }
 
-end tqft.categories.examples.semigroups
+end categories.examples.semigroups

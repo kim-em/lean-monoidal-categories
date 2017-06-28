@@ -3,12 +3,12 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .monoidal_category
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 universe variables u v
 
@@ -32,4 +32,4 @@ definition MonoidalStructure.tensor_on_right { C: Category.{u v} } ( m : Monoida
   functoriality := ♯ -- This uses lemma MonoidalStructure.interchange_left_identity
 }
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

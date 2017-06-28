@@ -5,11 +5,11 @@
 import ...braided_monoidal_category
 import category_theory.types
 
-namespace tqft.categories.types
+namespace categories.types
 
-open tqft.categories
-open tqft.categories.monoidal_category
-open tqft.categories.braided_monoidal_category
+open categories
+open categories.monoidal_category
+open categories.braided_monoidal_category
 
 -- PROJECT really this should be a special case of the (uniquely braided, symmetric) monoidal structure coming from a product.
 
@@ -84,4 +84,4 @@ definition SymmetricMonoidalCategoryOfTypes : Symmetry MonoidalCategoryOfTypes :
   symmetry  := ♯
 }
 
-end tqft.categories.types
+end categories.types

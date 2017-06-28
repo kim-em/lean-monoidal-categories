@@ -3,10 +3,10 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .braided_monoidal_category
 
-namespace tqft.categories.braided_monoidal_functor
+namespace categories.braided_monoidal_functor
 
-open tqft.categories.braided_monoidal_category
+open categories.braided_monoidal_category
 
 -- PROJECT
 
-end tqft.categories.braided_monoidal_functor
+end categories.braided_monoidal_functor

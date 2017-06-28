@@ -5,10 +5,10 @@
 import ...braided_monoidal_category
 import .monoidal_category_of_semigroups
 
-open tqft.categories.natural_transformation
-open tqft.categories.braided_monoidal_category
+open categories.natural_transformation
+open categories.braided_monoidal_category
 
-namespace tqft.categories.examples.semigroups
+namespace categories.examples.semigroups
 
 -- definition SymmetryOnCategoryOfSemigroups' : Symmetry MonoidalStructureOnCategoryOfSemigroups :=
 -- begin
@@ -54,4 +54,4 @@ namespace tqft.categories.examples.semigroups
 
 -- end
 
-end tqft.categories.examples.semigroups
+end categories.examples.semigroups

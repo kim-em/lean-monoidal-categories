@@ -4,12 +4,12 @@
 import .enriched_category
 import ..braided_monoidal_category
 
-namespace tqft.categories.enriched.products
+namespace categories.enriched.products
 
-open tqft.categories
-open tqft.categories.enriched
-open tqft.categories.monoidal_category
-open tqft.categories.braided_monoidal_category
+open categories
+open categories.enriched
+open categories.monoidal_category
+open categories.braided_monoidal_category
 
 -- definition ProductCategory { V : Category } { m : MonoidalStructure V } { σ : Symmetry m } ( C D : EnrichedCategory m ) : EnrichedCategory m := {
 --     Obj            := C.Obj × D.Obj,
@@ -21,4 +21,4 @@ open tqft.categories.braided_monoidal_category
 --     associativity  := sorry
 -- }
 
-end tqft.categories.enriched.products
+end categories.enriched.products

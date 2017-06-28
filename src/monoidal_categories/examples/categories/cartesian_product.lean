@@ -5,12 +5,12 @@ import ...monoidal_category
 import category_theory.discrete_category
 import category_theory.universal.categories
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 universe variables u v
 
@@ -74,4 +74,4 @@ definition CartesianProductOfCategories : MonoidalStructure CategoryOfCategories
   triangle := ♯
 }
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

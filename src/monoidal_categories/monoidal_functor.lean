@@ -3,13 +3,13 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .monoidal_category
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.natural_transformation
-open tqft.categories.monoidal_category
-open tqft.categories.isomorphism
+open categories
+open categories.functor
+open categories.natural_transformation
+open categories.monoidal_category
+open categories.isomorphism
 
-namespace tqft.categories.monoidal_functor
+namespace categories.monoidal_functor
 
 universe variables u1 v1 u2 v2 u3 v3
 
@@ -180,4 +180,4 @@ attribute [simp,ematch] MonoidalNaturalTransformation.compatibility_with_unit
 --   associativity  := ♮
 -- }
 
-end tqft.categories.monoidal_functor
+end categories.monoidal_functor

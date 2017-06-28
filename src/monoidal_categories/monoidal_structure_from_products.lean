@@ -4,14 +4,14 @@
 import .braided_monoidal_category
 import category_theory.universal.universal
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
-open tqft.categories.monoidal_category
-open tqft.categories.universal
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
+open categories.monoidal_category
+open categories.universal
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 @[reducible,pointwise] definition left_associated_triple_Product_projection_1 { C : Category } [ has_BinaryProducts C ] { X Y Z : C.Obj } : C.Hom (binary_product (binary_product X Y).product Z).product X :=
   C.compose (BinaryProduct.left_projection _) (BinaryProduct.left_projection _)
@@ -52,4 +52,4 @@ begin
   tidy,
 end
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

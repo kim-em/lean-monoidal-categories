@@ -3,10 +3,10 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import ..monoidal_category
 
-namespace tqft.categories.enriched
+namespace categories.enriched
 
-open tqft.categories
-open tqft.categories.monoidal_category
+open categories
+open categories.monoidal_category
 
 structure {u v w} EnrichedCategory { V: Category.{v w} } ( m : MonoidalStructure V ) :=
   (Obj : Type u)
@@ -57,4 +57,4 @@ attribute [simp,ematch] Functor.identities
 
   -- PROJECT natural transformations don't always exist; you need various limits!
   
-end tqft.categories.enriched
+end categories.enriched

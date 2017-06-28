@@ -3,12 +3,12 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import ..monoidal_category
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 universe variables u v
 
@@ -62,4 +62,4 @@ universe variables u v
     (pentagon_2step_1 m)
     (pentagon_2step_2 m)
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

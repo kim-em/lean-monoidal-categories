@@ -4,13 +4,13 @@
 import .cartesian_product
 import ...braided_monoidal_category
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
-open tqft.categories.braided_monoidal_category
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
+open categories.braided_monoidal_category
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 local attribute [pointwise] Functors_pointwise_equal
 
@@ -32,4 +32,4 @@ definition SymmetryOnCartesianProductOfCategories : Symmetry CartesianProductOfC
   symmetry  := ♯
 }
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

@@ -5,10 +5,10 @@
 import category_theory.isomorphism
 import category_theory.types
 
-namespace tqft.categories.examples.types
+namespace categories.examples.types
 
-open tqft.categories
-open tqft.categories.isomorphism
+open categories
+open categories.isomorphism
 
 -- definition TensorProductOfTypes : TensorProduct CategoryOfTypes :=
 -- {
@@ -96,4 +96,4 @@ end
     
 -- end
 
-end tqft.categories.examples.types
+end categories.examples.types

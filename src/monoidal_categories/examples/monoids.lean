@@ -5,9 +5,9 @@
 import category_theory.functor
 import .semigroups.semigroups
 
-namespace tqft.categories.examples.monoids
+namespace categories.examples.monoids
 
-open tqft.categories
+open categories
 
 set_option pp.universes true
 
@@ -59,8 +59,8 @@ definition CategoryOfMonoids : Category :=
     associativity  := ♮
 }
 
-open tqft.categories.functor
-open tqft.categories.examples.semigroups
+open categories.functor
+open categories.examples.semigroups
 
 definition cast_monoid_to_semigroup { α : Type } ( s : monoid α ) : semigroup α := @monoid.to_semigroup α s
 
@@ -76,4 +76,4 @@ definition ForgetfulFunctor_Monoids_to_Semigroups : Functor CategoryOfMonoids Ca
   functoriality := ♮
 }
 
-end tqft.categories.examples.monoids
+end categories.examples.monoids

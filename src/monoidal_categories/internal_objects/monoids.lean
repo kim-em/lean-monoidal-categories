@@ -3,10 +3,10 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .semigroups
 
-open tqft.categories
-open tqft.categories.monoidal_category
+open categories
+open categories.monoidal_category
 
-namespace tqft.categories.internal_objects
+namespace categories.internal_objects
 
 structure MonoidObject { C : Category } ( m : MonoidalStructure C ) extends SemigroupObject m := 
   ( unit : C.Hom m.tensor_unit object )
@@ -19,4 +19,4 @@ attribute [simp,ematch] MonoidObject.right_identity
 -- instance MonoidObject_coercion_to_SemigroupObject { C : MonoidalCategory } : has_coe (MonoidObject C) (SemigroupObject C) :=
 --   { coe := MonoidObject.to_SemigroupObject }
 
-end tqft.categories.internal_objects
+end categories.internal_objects

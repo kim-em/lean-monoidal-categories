@@ -3,12 +3,12 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .tensor_product
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
 
-namespace tqft.categories.monoidal_category
+namespace categories.monoidal_category
 
 structure {u v} MonoidalStructure ( C : Category.{u v} ) :=
   (tensor                    : TensorProduct C)
@@ -155,4 +155,4 @@ definition {u v} MonoidalCategory_coercion_to_Category : has_coe MonoidalCategor
 
 attribute [instance] MonoidalCategory_coercion_to_Category
 
-end tqft.categories.monoidal_category
+end categories.monoidal_category

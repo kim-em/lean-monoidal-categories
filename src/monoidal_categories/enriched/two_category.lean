@@ -5,14 +5,14 @@
 import .enriched_category
 import ..examples.categories.cartesian_product
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.natural_transformation
-open tqft.categories.enriched
-open tqft.categories.products
-open tqft.categories.monoidal_category
+open categories
+open categories.functor
+open categories.natural_transformation
+open categories.enriched
+open categories.products
+open categories.monoidal_category
 
-namespace tqft.categories.enriched.two_category
+namespace categories.enriched.two_category
 
 definition {u} TwoCategory := EnrichedCategory CartesianProductOfCategories.{u u}
 
@@ -78,4 +78,4 @@ definition horizontal_composition_on_FunctorCategories { C D E : Category } : Fu
 
 -- PROJECT strict n-categories; for this we'll need to define products of enriched categories, and show that (n-1) categories are symmetric.
 
-end tqft.categories.enriched.two_category
+end categories.enriched.two_category

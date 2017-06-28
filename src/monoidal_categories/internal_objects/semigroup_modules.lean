@@ -3,10 +3,10 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .semigroups
 
-open tqft.categories
-open tqft.categories.monoidal_category
+open categories
+open categories.monoidal_category
 
-namespace tqft.categories.internal_objects
+namespace categories.internal_objects
 
 structure SemigroupModuleObject { C : Category } { m : MonoidalStructure C } ( A : SemigroupObject m ) :=
   ( module : C.Obj )
@@ -53,4 +53,4 @@ instance SemigroupModuleMorphism_coercion_to_map { C : Category } { m : Monoidal
 --   associativity  := ♮
 -- }
 
-end tqft.categories.internal_objects
+end categories.internal_objects

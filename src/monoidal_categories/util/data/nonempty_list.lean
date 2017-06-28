@@ -1,4 +1,4 @@
-namespace tqft.util.data.nonempty_list
+namespace util.data.nonempty_list
 
 universe u
 variable {α : Type u}
@@ -56,4 +56,4 @@ by induction xs; simph
 
 end nonempty_list
 
-end tqft.util.data.nonempty_list
+end util.data.nonempty_list

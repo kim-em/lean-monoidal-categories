@@ -3,13 +3,13 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import ..braided_monoidal_category
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
-open tqft.categories.monoidal_category
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
+open categories.monoidal_category
 
-namespace tqft.categories.braided_monoidal_category
+namespace categories.braided_monoidal_category
 
 @[reducible] definition {u v} squared_Braiding { C : Category.{u v} } { m : MonoidalStructure C } ( commutor : Commutor m )
   : NaturalTransformation m.tensor m.tensor :=
@@ -34,4 +34,4 @@ lemma {u v} symmetric_in_terms_of_components { C : Category.{u v} } { m : Monoid
                                end
 }
 
-end tqft.categories.braided_monoidal_category
+end categories.braided_monoidal_category

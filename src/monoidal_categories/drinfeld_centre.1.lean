@@ -3,13 +3,13 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import .drinfeld_centre
 
-open tqft.categories
-open tqft.categories.functor
-open tqft.categories.products
-open tqft.categories.natural_transformation
-open tqft.categories.monoidal_category
+open categories
+open categories.functor
+open categories.products
+open categories.natural_transformation
+open categories.monoidal_category
 
-namespace tqft.categories.drinfeld_centre
+namespace categories.drinfeld_centre
 
 local attribute [ematch] MonoidalStructure.interchange_right_identity  MonoidalStructure.interchange_left_identity
 
@@ -76,4 +76,4 @@ definition DrinfeldCentreTensorUnit { C : Category } ( m : MonoidalStructure C )
 
 -- PROJECT Drinfeld centre as a braided category.
 
-end tqft.categories.drinfeld_centre
+end categories.drinfeld_centre

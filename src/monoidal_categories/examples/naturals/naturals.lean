@@ -3,10 +3,10 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import category_theory.natural_transformation
 
-namespace tqft.categories.examples.naturals
+namespace categories.examples.naturals
 
-open tqft.categories
-open tqft.categories.functor
+open categories
+open categories.functor
 
 @[simp]
 lemma nat_add_left_cancel_iff (a b : ℕ) : a + b = a ↔ b = 0 :=
@@ -53,4 +53,4 @@ end
 --     functoriality := ♯
 --   }
 
-end tqft.categories.examples.naturals
+end categories.examples.naturals

@@ -3,9 +3,9 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import ...braided_monoidal_category
 
-namespace tqft.categories.examples.semigroups
+namespace categories.examples.semigroups
 
-open tqft.categories
+open categories
 
 structure {u} semigroup_morphism { α β : Type u } ( s : semigroup α ) ( t: semigroup β ) :=
   (map: α → β)
@@ -58,4 +58,4 @@ definition trivial_semigroup: semigroup punit := {
   mul_assoc := ♮
 }
 
-end tqft.categories.examples.semigroups
+end categories.examples.semigroups
