@@ -158,7 +158,7 @@ attribute [simp,ematch] MonoidalNaturalTransformation.compatibility_with_unit
 --   ( α : MonoidalNaturalTransformation F G ) 
 --   ( β : MonoidalNaturalTransformation H K ) : MonoidalNaturalTransformation (MonoidalFunctorComposition F H) (MonoidalFunctorComposition G K) :=
 -- {
---   natural_transformation    := horizontal_composition_of_NaturalTransformations α.natural_transformation β.natural_transformation,
+--   natural_transformation    := α.natural_transformation ∘ₕ β.natural_transformation,
 --   compatibility_with_tensor := sorry,
 --   compatibility_with_unit   := sorry
 -- }
