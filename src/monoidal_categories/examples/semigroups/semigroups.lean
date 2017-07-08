@@ -29,7 +29,7 @@ definition {u} semigroup_morphism_composition
   multiplicative := ♮
 }
 
-@[pointwise] lemma {u} semigroup_morphism_pointwise_equality
+@[applicable] lemma {u} semigroup_morphism_pointwise_equality
   { α β : Type u } { s : semigroup α } { t: semigroup β }
   ( f g : semigroup_morphism s t )
   ( w : ∀ x : α, f x = g x) : f = g :=

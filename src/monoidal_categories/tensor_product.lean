@@ -2,6 +2,7 @@
 -- Released under Apache 2.0 license as described in the file LICENSE.
 -- Authors: Stephen Morgan, Scott Morrison
 import category_theory.products.associator
+import category_theory.natural_isomorphism
 
 open categories
 open categories.functor

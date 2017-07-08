@@ -39,7 +39,7 @@ attribute [ematch] TensorProduct_is_strict.associativeOnObjects
 --                            induction pq with p q,
 --                            refine (cast _ (C.identity (tensor.onObjects (tensor.onObjects (p, q), r)))),  
 --                            blast, -- TODO Why doesn't blast do the next rewrite?
---                            rewrite - is_strict.associativeOnObjects,
+--                            rewrite ← is_strict.associativeOnObjects,
 --                            exact sorry
 --                        end,
 --     naturality := begin

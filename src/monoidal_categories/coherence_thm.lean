@@ -239,7 +239,7 @@ lemma interpret_cong_clos_functoriality
 lemma functoriality_left
     (X Y Z A : C.Obj)
     (f : C.Hom X Y) (g : C.Hom Y Z)
-    : (f ⟩C⟩ g) ⟨⊗⟩ C.identity A = (f ⟨⊗⟩ C.identity A) ⟩C⟩ (g ⟨⊗⟩ C.identity A) := ♮
+    : (f ⟩C⟩ g) ⟨⊗⟩ C.identity A = (f ⟨⊗⟩ C.identity A) ⟩C⟩ (g ⟨⊗⟩ C.identity A) := ♯
 
 lemma interpret_cong_clos_inject_left
     {R : bin_tree C.Obj → bin_tree C.Obj → Type u}
@@ -307,13 +307,16 @@ def trans_lopsided {s t : bin_tree α} (p : reassoc_dir s t) : reassoc_dir s s.l
 lemma trans_lopsided_heq {s t : bin_tree α} (p : reassoc_dir s t) : trans_lopsided p == trans_lopsided' p :=
   by apply rewrite_target_cong
 
+meta def congr_args : tactic unit := (apply congr_arg) <|> (apply hcongr_arg)
+meta def congr_funs : tactic unit := (apply congr_fun) <|> (apply hcongr_fun)
+
 lemma trans_lopsided_already_lopsided {s : bin_tree α} (p : reassoc_dir s s.lopsided) : trans_lopsided p == p :=
   calc
          rewrite_target (eq.symm (reassoc_dir.respects_lopsided p)) (cong_clos.trans p (reassoc_dir.reassoc_lopsided s.lopsided))
       == cong_clos.trans p (reassoc_dir.reassoc_lopsided s.lopsided)
       : by apply rewrite_target_cong
   ... == cong_clos.trans p (reassoc_dir.refl s.lopsided)
-      : begin congr_args, rewrite lopsided_idempotent, apply reassoc_dir.reassoc_already_lopsided end
+      : begin apply hcongr_arg, congr_args, rewrite lopsided_idempotent, apply reassoc_dir.reassoc_already_lopsided end
   ... = p
       : by apply trans_refl_right
 

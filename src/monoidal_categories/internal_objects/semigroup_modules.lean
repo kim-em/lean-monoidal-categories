@@ -24,7 +24,7 @@ structure SemigroupModuleMorphism { C : Category } { m : MonoidalStructure C } {
 
 attribute [simp,ematch] SemigroupModuleMorphism.compatibility
 
-@[pointwise] lemma SemigroupModuleMorphism_pointwisewise_equal
+@[applicable] lemma SemigroupModuleMorphism_pointwisewise_equal
   { C : Category } 
   { m : MonoidalStructure C } 
   { A : SemigroupObject m }

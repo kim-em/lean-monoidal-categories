@@ -14,15 +14,15 @@ open categories.monoidal_category
 
 namespace categories.enriched.two_category
 
-definition {u} TwoCategory := EnrichedCategory CartesianProductOfCategories.{u u}
+-- definition {u} TwoCategory := EnrichedCategory CartesianProductOfCategories.{u u}
 
-definition horizontal_composition_on_FunctorCategories { C D E : Category } : Functor (ProductCategory (FunctorCategory C D) (FunctorCategory D E)) (FunctorCategory C E) :=
-{
-    onObjects     := λ p, FunctorComposition p.1 p.2,
-    onMorphisms   := λ _ _ p, p.1 ∘ₕ p.2,
-    identities    := ♯,
-    functoriality := ♯
-}
+-- definition horizontal_composition_on_FunctorCategories { C D E : Category } : Functor (ProductCategory (FunctorCategory C D) (FunctorCategory D E)) (FunctorCategory C E) :=
+-- {
+--     onObjects     := λ p, FunctorComposition p.1 p.2,
+--     onMorphisms   := λ _ _ p, p.1 ∘ₕ p.2,
+--     identities    := ♯,
+--     functoriality := ♯
+-- }
 
 -- definition {u} CAT : TwoCategory.{u} :=
 -- {

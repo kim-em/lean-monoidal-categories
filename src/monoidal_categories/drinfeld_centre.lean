@@ -4,8 +4,6 @@
 import .braided_monoidal_category
 import .tensor_with_object
 
---set_option pp.universes true
-
 open categories
 open categories.functor
 open categories.products
@@ -31,7 +29,7 @@ structure {u v} HalfBraidingMorphism  { C : Category.{u v} } { m : MonoidalStruc
 
 attribute [ematch] HalfBraidingMorphism.witness
 
-@[pointwise] lemma HalfBraidingMorphism_equal
+@[applicable] lemma HalfBraidingMorphism_equal
   { C : Category }
   { m : MonoidalStructure C }
   { X Y : HalfBraiding m }
@@ -68,7 +66,7 @@ definition {u v} DrinfeldCentre { C : Category.{u v} } ( m : MonoidalStructure C
         dsimp,
         rewrite m.interchange_right_identity,
         rewrite m.interchange_left_identity,
-        rewrite - C.associativity,
+        rewrite ← C.associativity,
         rewrite f.witness,
         rewrite C.associativity,
         tidy,

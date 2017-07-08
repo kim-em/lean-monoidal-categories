@@ -51,8 +51,8 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
 -- @[ematch] lemma MonoidalStructure.triangle_components_inverse { C : Category } ( m : MonoidalStructure C ) ( X Y : C.Obj ) :
 --   C.compose (m.inverse_associator X m.tensor_unit Y) (m.tensorMorphisms (m.right_unitor X) (C.identity Y)) = m.tensorMorphisms (C.identity X) (m.left_unitor Y) := 
 --   begin
---     erewrite - m.triangle_components X Y,
---     erewrite - C.associativity,
+--     erewrite ← m.triangle_components X Y,
+--     erewrite ← C.associativity,
 --     dsimp,
 --     erewrite m.associator_transformation.componentwise_witness_2 ((X, m.tensor_unit), Y),
 --     simp,
@@ -95,10 +95,10 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
   C.compose (m.tensorMorphisms (C.identity Y) f) (m.tensorMorphisms g (C.identity X))
     = C.compose (m.tensorMorphisms g (C.identity W)) (m.tensorMorphisms (C.identity Z) f) :=
     begin
-     dsimp, dunfold MonoidalStructure.tensorMorphisms,
-     rewrite - MonoidalStructure.interchange,
+    tidy,
+     rewrite ← MonoidalStructure.interchange,
      simp,
-     rewrite - MonoidalStructure.interchange,
+     rewrite ← MonoidalStructure.interchange,
      simp
     end
 
@@ -111,7 +111,7 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
     --  begin[smt]
     --    eblast -- FIXME runs forever
     --  end,
-     rewrite - m.tensor.identities,
+     rewrite ← m.tensor.identities,
      tidy
    end
 

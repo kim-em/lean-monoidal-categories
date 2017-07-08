@@ -16,7 +16,7 @@ attribute [simp,ematch] ModuleObject.identity
 
 structure ModuleMorphism { C : Category } { m : MonoidalStructure C } { A : MonoidObject m } ( X Y : ModuleObject A ) extends SemigroupModuleMorphism X.to_SemigroupModuleObject Y.to_SemigroupModuleObject
 
--- @[pointwise] lemma ModuleMorphism_pointwisewise_equal
+-- @[applicable] lemma ModuleMorphism_pointwisewise_equal
 --   { C : Category }
 --   { m : MonoidalStructure C }
 --   { A : MonoidObject m }

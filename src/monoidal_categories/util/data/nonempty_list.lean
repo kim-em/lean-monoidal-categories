@@ -52,7 +52,11 @@ rfl
 rfl
 
 lemma append_assoc (xs ys zs : nonempty_list α) : (xs ++ ys) ++ zs = xs ++ (ys ++ zs) :=
-by induction xs; simph
+begin
+  induction xs,
+  simp *,
+  simp *
+end
 
 end nonempty_list
 

@@ -61,7 +61,7 @@ instance MonoidalFunctor_coercion_to_functor { C : Category.{u1 v1} } ( m : Mono
 --   functor        := @FunctorComposition C D E F G,
 --   tensorator     := {
 --     morphism  := begin                   
---                    rewrite - FunctorComposition.associativity,
+--                    rewrite ← FunctorComposition.associativity,
 --                    exact sorry
 --                  end,
 --     inverse   := sorry,
@@ -87,7 +87,7 @@ structure MonoidalNaturalTransformation
 attribute [simp,ematch] MonoidalNaturalTransformation.compatibility_with_tensor
 attribute [simp,ematch] MonoidalNaturalTransformation.compatibility_with_unit
 
--- @[pointwise] lemma MonoidalNaturalTransformation_componentwise_equal
+-- @[applicable] lemma MonoidalNaturalTransformation_componentwise_equal
 --   { C : Category.{u1 v1} }
 --   { D : Category.{u2 v2} }
 --   { m : MonoidalStructure C }
@@ -134,7 +134,7 @@ attribute [simp,ematch] MonoidalNaturalTransformation.compatibility_with_unit
 --                                   -- blast,
 --                                   intros, dsimp,
 --                                   rewrite D.interchange,
---                                   rewrite - D.associativity,
+--                                   rewrite ← D.associativity,
 --                                   rewrite α.compatibility_with_tensor,
 --                                   -- blast, -- This blast seems to cause the CPU to pin at maximum, and start ignoring earlier edits.
 --                                   rewrite D.associativity,
