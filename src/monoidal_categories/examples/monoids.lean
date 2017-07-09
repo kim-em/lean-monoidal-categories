@@ -9,11 +9,9 @@ namespace categories.examples.monoids
 
 open categories
 
-set_option pp.universes true
-
 structure monoid_morphism { α β : Type } ( s : monoid α ) ( t : monoid β ) :=
   (map: α → β)
-  (multiplicative : ∀ x y : α, map(x * y) = map(x) * map(y))
+  (multiplicative : ∀ x y : α, map (monoid.mul x y) = monoid.mul (map x) (map y))
   (unital : map(s.one) = t.one)
 
 attribute [simp] monoid_morphism.multiplicative
@@ -31,8 +29,8 @@ definition monoid_morphism_composition
   ( f: monoid_morphism s t ) ( g: monoid_morphism t u ) : monoid_morphism s u :=
 {
   map := λ x, g (f x),
-  multiplicative := ♮,
-  unital := ♮
+  multiplicative := ♯,
+  unital := ♯
 }
 
 @[applicable] lemma monoid_morphism_pointwise_equality

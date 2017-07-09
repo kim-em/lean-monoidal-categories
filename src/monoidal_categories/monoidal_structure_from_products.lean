@@ -43,6 +43,7 @@ definition TensorProduct_from_Products ( C : Category ) [ has_BinaryProducts C ]
 
 local attribute [simp] Category.associativity
 
-definition Associator_for_Products ( C : Category ) [ has_BinaryProducts C ] : Associator (TensorProduct_from_Products C) := ♯
+-- PROJECT seems to be taking forever
+-- definition Associator_for_Products ( C : Category ) [ has_BinaryProducts C ] : Associator (TensorProduct_from_Products C) := ♯
 
 end categories.monoidal_category

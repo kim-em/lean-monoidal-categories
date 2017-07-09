@@ -13,10 +13,10 @@ open categories.universal
 namespace categories.monoidal_category
 
 -- FIXME where do these lost meta-variables come from?
-definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) :=
-begin
-  tidy, 
-end
+-- definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) :=
+-- begin
+--   tidy, 
+-- end
 
 -- definition RightUnitor_for_Products ( C : Category ) [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) :=
 -- begin

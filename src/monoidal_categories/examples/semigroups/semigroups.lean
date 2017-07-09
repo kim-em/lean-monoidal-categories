@@ -9,7 +9,7 @@ open categories
 
 structure {u} semigroup_morphism { α β : Type u } ( s : semigroup α ) ( t: semigroup β ) :=
   (map: α → β)
-  (multiplicative : ∀ x y : α, map (x * y) = (map x) * (map y))
+  (multiplicative : ∀ x y : α, map (semigroup.mul x y) = semigroup.mul (map x) (map y))
 
 attribute [simp,ematch] semigroup_morphism.multiplicative
 
@@ -26,7 +26,7 @@ definition {u} semigroup_morphism_composition
   ( f: semigroup_morphism s t ) ( g: semigroup_morphism t u ) : semigroup_morphism s u :=
 {
   map := λ x, g (f x),
-  multiplicative := ♮
+  multiplicative := ♯
 }
 
 @[applicable] lemma {u} semigroup_morphism_pointwise_equality
