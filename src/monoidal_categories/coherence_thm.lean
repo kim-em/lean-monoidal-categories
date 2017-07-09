@@ -3,6 +3,8 @@ import .util.data.nonempty_list
 import .util.data.bin_tree
 import .util.data.bin_tree.cong_clos
 
+import tidy.congr_struct
+
 open categories
 open categories.monoidal_category
 open util.data.nonempty_list
@@ -89,11 +91,9 @@ lemma reassoc_already_lopsided :
         : by apply cong_clos.trans_refl_right
     ... == cong_clos.inject_right (leaf x) (refl (from_list_lopsided xs))
         : begin
-            -- FIXME the tactic congr_args seems to have disappeared?
-            -- congr_args,
-            --   unfold lopsided, rewrite from_list_lopsided_to_list,
-            --   apply reassoc_already_lopsided
-            admit
+            congr_args,
+              unfold lopsided, rewrite from_list_lopsided_to_list,
+              apply reassoc_already_lopsided
           end
     ... == refl (branch (leaf x) (from_list_lopsided xs))
         : by reflexivity
@@ -316,9 +316,7 @@ lemma trans_lopsided_already_lopsided {s : bin_tree α} (p : reassoc_dir s s.lop
       : by apply rewrite_target_cong
   ... == cong_clos.trans p (reassoc_dir.refl s.lopsided)
       : begin 
-          -- FIXME the tactic congr_args seems to have disappeared?
-          -- congr_args, rewrite lopsided_idempotent, apply reassoc_dir.reassoc_already_lopsided
-          admit
+          congr_args, rewrite lopsided_idempotent, apply reassoc_dir.reassoc_already_lopsided
         end
   ... = p
       : by apply trans_refl_right
