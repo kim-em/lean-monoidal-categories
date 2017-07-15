@@ -21,7 +21,7 @@ definition TensorProductOfTypes : TensorProduct CategoryOfTypes :=
   functoriality := ♮
 }
 
--- PROJECT it would be great to generate all these _is_isomorphism fields via refine
+-- PROJECT it would be great to generate all these inverse and witness fields via refine
 definition MonoidalCategoryOfTypes : MonoidalStructure CategoryOfTypes :=
 {
   tensor      := TensorProductOfTypes,
@@ -38,7 +38,7 @@ definition MonoidalCategoryOfTypes : MonoidalStructure CategoryOfTypes :=
     witness_1 := ♯,
     witness_2 := ♯
   },
-  left_unitor := {
+  left_unitor_transformation := {
     morphism := {
       components := λ p t, t.2,
       naturality := ♮
@@ -50,7 +50,7 @@ definition MonoidalCategoryOfTypes : MonoidalStructure CategoryOfTypes :=
     witness_1 := ♯,
     witness_2 := ♮
   },
-  right_unitor := {
+  right_unitor_transformation := {
     morphism := {
       components := λ p t, t.1,
       naturality := ♮

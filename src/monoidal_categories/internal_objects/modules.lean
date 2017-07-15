@@ -10,7 +10,7 @@ open categories.monoidal_category
 namespace categories.internal_objects
 
 structure ModuleObject { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) extends SemigroupModuleObject A.to_SemigroupObject :=
-  ( identity  : C.compose (m.left_unitor.inverse.components module)  (C.compose (m.tensorMorphisms A.unit (C.identity module)) action) = C.identity module )
+  ( identity  : C.compose (m.inverse_left_unitor module)  (C.compose (m.tensorMorphisms A.unit (C.identity module)) action) = C.identity module )
 
 attribute [simp,ematch] ModuleObject.identity
 

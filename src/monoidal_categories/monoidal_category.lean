@@ -11,14 +11,14 @@ open categories.natural_transformation
 namespace categories.monoidal_category
 
 structure {u v} MonoidalStructure ( C : Category.{u v} ) :=
-  (tensor                    : TensorProduct C)
-  (tensor_unit               : C.Obj)
-  (associator_transformation : Associator tensor)
-  (left_unitor               : LeftUnitor tensor_unit tensor)
-  (right_unitor              : RightUnitor tensor_unit tensor)
+  (tensor                      : TensorProduct C)
+  (tensor_unit                 : C.Obj)
+  (associator_transformation   : Associator tensor)
+  (left_unitor_transformation  : LeftUnitor tensor_unit tensor)
+  (right_unitor_transformation : RightUnitor tensor_unit tensor)
 
   (pentagon                  : Pentagon associator_transformation)
-  (triangle                  : Triangle tensor_unit left_unitor right_unitor associator_transformation)
+  (triangle                  : Triangle tensor_unit left_unitor_transformation right_unitor_transformation associator_transformation)
 
 attribute [ematch] MonoidalStructure.pentagon
 attribute [simp,ematch] MonoidalStructure.triangle
@@ -29,6 +29,27 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
 -- Convenience methods which take two arguments, rather than a pair. (This seems to often help the elaborator avoid getting stuck on `prod.mk`.)
 @[reducible] definition MonoidalStructure.tensorObjects { C : Category } ( m : MonoidalStructure C ) ( X Y : C.Obj ) : C.Obj := m ⟨X, Y⟩
 @[reducible] definition MonoidalStructure.tensorMorphisms { C : Category } ( m : MonoidalStructure C ) { W X Y Z : C.Obj } ( f : C.Hom W X ) ( g : C.Hom Y Z ) : C.Hom (m ⟨W, Y⟩) (m ⟨X, Z⟩) := m.tensor.onMorphisms ⟨f, g⟩
+
+@[reducible] definition MonoidalStructure.left_unitor
+  { C : Category }
+  ( m : MonoidalStructure C )
+  ( X : C.Obj ) : C.Hom (m.tensorObjects m.tensor_unit X) X := m.left_unitor_transformation X
+  
+@[reducible] definition MonoidalStructure.right_unitor
+  { C : Category }
+  ( m : MonoidalStructure C )
+  ( X : C.Obj ) : C.Hom (m.tensorObjects X m.tensor_unit) X := m.right_unitor_transformation X
+
+@[reducible] definition MonoidalStructure.inverse_left_unitor
+  { C : Category }
+  ( m : MonoidalStructure C )
+  ( X : C.Obj ) : C.Hom X (m.tensorObjects m.tensor_unit X) := m.left_unitor_transformation.inverse.components X
+  
+@[reducible] definition MonoidalStructure.inverse_right_unitor
+  { C : Category }
+  ( m : MonoidalStructure C )
+  ( X : C.Obj ) : C.Hom X (m.tensorObjects X m.tensor_unit) := m.right_unitor_transformation.inverse.components X
+
 
 @[reducible] definition MonoidalStructure.associator
   { C : Category }

@@ -15,7 +15,7 @@ local attribute [ematch] MonoidalStructure.interchange_right_identity  MonoidalS
 
 definition DrinfeldCentreTensorUnit { C : Category } ( m : MonoidalStructure C ) : (DrinfeldCentre m).Obj := {
     object := m.tensor_unit,
-    commutor := vertical_composition_of_NaturalIsomorphisms m.left_unitor m.right_unitor.reverse
+    commutor := vertical_composition_of_NaturalIsomorphisms m.left_unitor_transformation m.right_unitor_transformation.reverse
   }
 
 -- definition DrinfeldCentreTensorProduct { C : Category } ( m : MonoidalStructure C ) : TensorProduct (DrinfeldCentre m) := {

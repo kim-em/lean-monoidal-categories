@@ -9,6 +9,7 @@ namespace categories.examples.types
 
 open categories
 open categories.isomorphism
+open categories.types
 
 -- definition TensorProductOfTypes : TensorProduct CategoryOfTypes :=
 -- {
@@ -45,32 +46,29 @@ begin
     all_goals { try { simp } }
 end
 
--- FIXME dsimp here causes a tactic.change error, as in https://github.com/leanprover/lean/issues/1503
--- definition test' : Isomorphism CategoryOfTypes ((ℕ × ℕ) × ℕ) (ℕ × (ℕ × ℕ)) :=
--- begin
---     refine {
---         morphism := λ t, (t.1.1, (t.1.2, t.2)),
---         inverse  := _,
---         witness_1 := _,
---         witness_2 := _
---     },
---     unfold_unfoldable,
---     intros,
---     induction_on_pairs,
---     induction_on_pairs,
---     all_goals { unfold CategoryOfTypes },
---     split,
---     split,
---     all_goals { try { apply funext, intros, induction_on_pairs, induction_on_pairs } },
---     all_goals { try { simp } },
---     all_goals { try { dsimp } },
---     apply pair_equality_3,
---     apply pair_equality_3,
---     dsimp,
---     trivial,
---     trivial,
---     dsimp
--- end
+definition test' : Isomorphism CategoryOfTypes ((ℕ × ℕ) × ℕ) (ℕ × (ℕ × ℕ)) :=
+begin
+    refine {
+        morphism := λ t, (t.1.1, (t.1.2, t.2)),
+        inverse  := _,
+        witness_1 := _,
+        witness_2 := _
+    },
+    tidy,
+    -- PROJECT automation
+    any_goals { dsimp' },
+    any_goals { apply funext} ,
+    tactic.focus [ skip,skip,skip,(intro1 >>= λ x, skip),(intro1 >>= λ x, skip) ],
+    any_goals {automatic_induction},
+    any_goals {automatic_induction},
+    any_goals {simp},
+    any_goals {dsimp'},
+    any_goals {applicable},
+    any_goals {dsimp'},
+    any_goals {applicable},
+    any_goals {dsimp'},
+    any_goals {refl},
+end
 
 -- definition AssociatorForTypes : Associator TensorProductOfTypes :=
 -- begin
@@ -83,16 +81,7 @@ end
 --         witness_1 := _,
 --         witness_2 := _
 --     },
---     blast,
---     split,
---     intros X Y f,
---     dsimp at X,
---     induction X with X12 X3,
---     induction X12 with X1 X2,
---     dsimp at Y,
---     induction Y with Y12 Y3,
---     induction Y12 with Y1 Y2,
---     dsimp at f,
+
     
 -- end
 
