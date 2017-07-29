@@ -8,8 +8,8 @@ import tidy.congr_struct
 open categories
 open categories.monoidal_category
 open util.data.nonempty_list
-open util.data.bin_tree
-open util.data.bin_tree.bin_tree
+open util.data.bin_tree'
+open util.data.bin_tree'.bin_tree'
 
 namespace categories.monoidal_category.coherence_thm
 
@@ -17,41 +17,41 @@ universes u v
 
 variable {α : Type u}
 
-inductive reassoc_dir_single_step : bin_tree α → bin_tree α → Type u
+inductive reassoc_dir_single_step : bin_tree' α → bin_tree' α → Type u
 | rotate_right : Π r s t, reassoc_dir_single_step (branch (branch r s) t) (branch r (branch s t))
 
 namespace reassoc_dir_single_step
 
-lemma respects_to_list : Π (s t : bin_tree α), reassoc_dir_single_step s t → s.to_list = t.to_list
+lemma respects_to_list : Π (s t : bin_tree' α), reassoc_dir_single_step s t → s.to_list = t.to_list
 | ._ ._ (rotate_right _ _ _) :=
     begin
-      unfold bin_tree.to_list,
+      unfold bin_tree'.to_list,
       rewrite nonempty_list.append_assoc
     end
 
 end reassoc_dir_single_step
 
-@[reducible] def reassoc_dir_step : bin_tree α → bin_tree α → Type u :=
+@[reducible] def reassoc_dir_step : bin_tree' α → bin_tree' α → Type u :=
   cong_clos_step reassoc_dir_single_step
 
 namespace reassoc_dir_step
 
-lemma respects_lopsided {s t : bin_tree α} (p : reassoc_dir_step s t) : s.lopsided = t.lopsided :=
+lemma respects_lopsided {s t : bin_tree' α} (p : reassoc_dir_step s t) : s.lopsided = t.lopsided :=
   cong_clos_step.respects_lopsided reassoc_dir_single_step.respects_to_list p
 
 end reassoc_dir_step
 
-@[reducible] def reassoc_dir : bin_tree α → bin_tree α → Type u :=
+@[reducible] def reassoc_dir : bin_tree' α → bin_tree' α → Type u :=
   cong_clos reassoc_dir_single_step
 
-@[reducible] def reassoc_dir' : bin_tree α → bin_tree α → Type u :=
+@[reducible] def reassoc_dir' : bin_tree' α → bin_tree' α → Type u :=
   cong_clos' reassoc_dir_single_step
 
 namespace reassoc_dir
 
-@[reducible] def refl (t : bin_tree α) : reassoc_dir t t := cong_clos.refl _ t
+@[reducible] def refl (t : bin_tree' α) : reassoc_dir t t := cong_clos.refl _ t
 
-def rotate_right (r s t : bin_tree α) : reassoc_dir (branch (branch r s) t) (branch r (branch s t)) :=
+def rotate_right (r s t : bin_tree' α) : reassoc_dir (branch (branch r s) t) (branch r (branch s t)) :=
   cong_clos.lift (reassoc_dir_single_step.rotate_right _ _ _)
 
 def lopsided_combine : Π (xs ys : nonempty_list α),
@@ -67,7 +67,7 @@ def lopsided_combine : Π (xs ys : nonempty_list α),
         apply lopsided_combine
   end
 
-def reassoc_lopsided : Π (t : bin_tree α), reassoc_dir t t.lopsided
+def reassoc_lopsided : Π (t : bin_tree' α), reassoc_dir t t.lopsided
 | (leaf x)     := refl _
 | (branch l r) :=
   begin
@@ -80,7 +80,7 @@ def reassoc_lopsided : Π (t : bin_tree α), reassoc_dir t t.lopsided
 
 lemma reassoc_already_lopsided :
     Π (l : nonempty_list α),
-    reassoc_lopsided (bin_tree.from_list_lopsided l) == refl (bin_tree.from_list_lopsided l)
+    reassoc_lopsided (bin_tree'.from_list_lopsided l) == refl (bin_tree'.from_list_lopsided l)
 | (nonempty_list.singleton x) := by reflexivity
 | (nonempty_list.cons x xs)   :=
     calc
@@ -98,65 +98,65 @@ lemma reassoc_already_lopsided :
     ... == refl (branch (leaf x) (from_list_lopsided xs))
         : by reflexivity
 
-lemma respects_to_list {s t : bin_tree α} (p : reassoc_dir s t) : s.to_list = t.to_list :=
+lemma respects_to_list {s t : bin_tree' α} (p : reassoc_dir s t) : s.to_list = t.to_list :=
   cong_clos.respects_to_list reassoc_dir_single_step.respects_to_list p
 
-lemma respects_lopsided {s t : bin_tree α} (p : reassoc_dir s t) : s.lopsided = t.lopsided :=
+lemma respects_lopsided {s t : bin_tree' α} (p : reassoc_dir s t) : s.lopsided = t.lopsided :=
   cong_clos.respects_lopsided reassoc_dir_single_step.respects_to_list p
 
 end reassoc_dir
 
-inductive reassoc_single_step : bin_tree α → bin_tree α → Type u
+inductive reassoc_single_step : bin_tree' α → bin_tree' α → Type u
 | rotate_left  : Π r s t, reassoc_single_step (branch r (branch s t)) (branch (branch r s) t)
 | rotate_right : Π r s t, reassoc_single_step (branch (branch r s) t) (branch r (branch s t))
 
-@[reducible] def reassoc_step : bin_tree α → bin_tree α → Type u :=
+@[reducible] def reassoc_step : bin_tree' α → bin_tree' α → Type u :=
   cong_clos_step reassoc_single_step
 
-@[reducible] def reassoc : bin_tree α → bin_tree α → Type u :=
+@[reducible] def reassoc : bin_tree' α → bin_tree' α → Type u :=
   cong_clos reassoc_single_step
 
 namespace reassoc_single_step
 
-def sym : Π (x y : bin_tree α), reassoc_single_step x y → reassoc_single_step y x
+def sym : Π (x y : bin_tree' α), reassoc_single_step x y → reassoc_single_step y x
 | ._ ._ (rotate_left  _ _ _) := rotate_right _ _ _
 | ._ ._ (rotate_right _ _ _) := rotate_left  _ _ _
 
-lemma respects_to_list : Π (s t : bin_tree α), reassoc_single_step s t → s.to_list = t.to_list
+lemma respects_to_list : Π (s t : bin_tree' α), reassoc_single_step s t → s.to_list = t.to_list
 | ._ ._ (rotate_left _ _ _) :=
     begin
-      unfold bin_tree.to_list,
+      unfold bin_tree'.to_list,
       rewrite nonempty_list.append_assoc
     end
 | ._ ._ (rotate_right _ _ _) :=
     begin
-      unfold bin_tree.to_list,
+      unfold bin_tree'.to_list,
       rewrite nonempty_list.append_assoc
     end
 
 end reassoc_single_step
 
-def reassoc_dir_to_reassoc_single_step : Π (s t : bin_tree α), reassoc_dir_single_step s t → reassoc_single_step s t
+def reassoc_dir_to_reassoc_single_step : Π (s t : bin_tree' α), reassoc_dir_single_step s t → reassoc_single_step s t
 | ._ ._ (reassoc_dir_single_step.rotate_right s t u) := reassoc_single_step.rotate_right s t u
 
-def reassoc_dir_to_reassoc : Π {s t : bin_tree α}, reassoc_dir s t → reassoc s t :=
+def reassoc_dir_to_reassoc : Π {s t : bin_tree' α}, reassoc_dir s t → reassoc s t :=
   λ s t p, cong_clos.transport reassoc_dir_to_reassoc_single_step p
 
 namespace reassoc
 
-@[reducible] def refl (t : bin_tree α) : reassoc_dir t t := cong_clos.refl _ t
+@[reducible] def refl (t : bin_tree' α) : reassoc_dir t t := cong_clos.refl _ t
 
-def sym : Π {x y : bin_tree α}, reassoc x y → reassoc y x :=
+def sym : Π {x y : bin_tree' α}, reassoc x y → reassoc y x :=
   λ x y, cong_clos.sym reassoc_single_step.sym
 
-lemma respects_to_list : Π {s t : bin_tree α}, reassoc s t → s.to_list = t.to_list :=
+lemma respects_to_list : Π {s t : bin_tree' α}, reassoc s t → s.to_list = t.to_list :=
   λ x y, cong_clos.respects_to_list reassoc_single_step.respects_to_list
 
-def reassoc_lopsided : Π (t : bin_tree α), reassoc t t.lopsided :=
+def reassoc_lopsided : Π (t : bin_tree' α), reassoc t t.lopsided :=
   λ t, reassoc_dir_to_reassoc (reassoc_dir.reassoc_lopsided t)
 
 -- TODO: more economical construction (with fewer rotations)
-def reassoc_tree : Π (r t : bin_tree α) (h : r.to_list = t.to_list), reassoc r t :=
+def reassoc_tree : Π (r t : bin_tree' α) (h : r.to_list = t.to_list), reassoc r t :=
 begin
   intros,
   apply cong_clos.trans,
@@ -188,14 +188,14 @@ local infix `⟨⊗⟩`:60 := tensor_homs
 
 open cong_clos
 
-@[reducible] def tensor_tree : bin_tree C.Obj → C.Obj
-| (bin_tree.leaf A)     := A
-| (bin_tree.branch l r) := tensor_tree l ⊗ tensor_tree r
+@[reducible] def tensor_tree : bin_tree' C.Obj → C.Obj
+| (bin_tree'.leaf A)     := A
+| (bin_tree'.branch l r) := tensor_tree l ⊗ tensor_tree r
 
 def interpret_cong_clos'
-    {R : bin_tree C.Obj → bin_tree C.Obj → Type u}
-    (I : Π (Xs Ys : bin_tree C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
-    : Π {Xs Ys : bin_tree C.Obj}, cong_clos' R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
+    {R : bin_tree' C.Obj → bin_tree' C.Obj → Type u}
+    (I : Π (Xs Ys : bin_tree' C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
+    : Π {Xs Ys : bin_tree' C.Obj}, cong_clos' R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
 | ._ ._ (cong_clos'.lift _ _ p)       := I _ _ p
 | ._ ._ (cong_clos'.refl ._ t)        := C.identity _
 | ._ ._ (cong_clos'.trans _ _ _ p q)  := C.compose (interpret_cong_clos' p) (interpret_cong_clos' q)
@@ -207,9 +207,9 @@ set_option eqn_compiler.lemmas false
 
 -- TODO(tim): factor out I as a variable
 def interpret_cong_clos_step
-    {R : bin_tree C.Obj → bin_tree C.Obj → Type u}
-    (I : Π (Xs Ys : bin_tree C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
-    : Π {Xs Ys : bin_tree C.Obj}, cong_clos_step R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
+    {R : bin_tree' C.Obj → bin_tree' C.Obj → Type u}
+    (I : Π (Xs Ys : bin_tree' C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
+    : Π {Xs Ys : bin_tree' C.Obj}, cong_clos_step R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
 | ._ ._ (cong_clos_step.lift x y p)      := I x y p
 | ._ ._ (cong_clos_step.left l₁ l₂ r l)  := interpret_cong_clos_step l ⟨⊗⟩ C.identity (tensor_tree r)
 | ._ ._ (cong_clos_step.right l r₁ r₂ r) := C.identity (tensor_tree l) ⟨⊗⟩ interpret_cong_clos_step r
@@ -217,16 +217,16 @@ def interpret_cong_clos_step
 set_option eqn_compiler.lemmas true
 
 def interpret_cong_clos
-    {R : bin_tree C.Obj → bin_tree C.Obj → Type u}
-    (I : Π (Xs Ys : bin_tree C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
-    : Π {Xs Ys : bin_tree C.Obj}, cong_clos R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
+    {R : bin_tree' C.Obj → bin_tree' C.Obj → Type u}
+    (I : Π (Xs Ys : bin_tree' C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
+    : Π {Xs Ys : bin_tree' C.Obj}, cong_clos R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
 | ._ ._ (cong_clos.refl ._ t)      := C.identity _
 | ._ ._ (cong_clos.step _ _ _ p q) := C.compose (interpret_cong_clos_step I p) (interpret_cong_clos q)
 
 lemma interpret_cong_clos_functoriality
-    {R : bin_tree C.Obj → bin_tree C.Obj → Type u}
-    (I : Π (Xs Ys : bin_tree C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
-    : Π (Xs Ys Zs : bin_tree C.Obj) (ps : cong_clos R Xs Ys) (qs : cong_clos R Ys Zs),
+    {R : bin_tree' C.Obj → bin_tree' C.Obj → Type u}
+    (I : Π (Xs Ys : bin_tree' C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
+    : Π (Xs Ys Zs : bin_tree' C.Obj) (ps : cong_clos R Xs Ys) (qs : cong_clos R Ys Zs),
       interpret_cong_clos I ps ⟩C⟩ interpret_cong_clos I qs = interpret_cong_clos I (cong_clos.trans ps qs)
 | ._ ._ _ (cong_clos.refl ._ t)       qs := C.left_identity _
 | ._ ._ _ (cong_clos.step _ _ _ p ps) qs :=
@@ -244,9 +244,9 @@ lemma functoriality_left
     : (f ⟩C⟩ g) ⟨⊗⟩ C.identity A = (f ⟨⊗⟩ C.identity A) ⟩C⟩ (g ⟨⊗⟩ C.identity A) := ♯
 
 lemma interpret_cong_clos_inject_left
-    {R : bin_tree C.Obj → bin_tree C.Obj → Type u}
-    (I : Π (Xs Ys : bin_tree C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
-    : Π (Xs Ys Zs : bin_tree C.Obj) (ps : cong_clos R Xs Ys),
+    {R : bin_tree' C.Obj → bin_tree' C.Obj → Type u}
+    (I : Π (Xs Ys : bin_tree' C.Obj), R Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys))
+    : Π (Xs Ys Zs : bin_tree' C.Obj) (ps : cong_clos R Xs Ys),
       interpret_cong_clos I (inject_left Zs ps) = interpret_cong_clos I ps ⟨⊗⟩ C.identity (tensor_tree Zs)
 | ._ ._ _ (cong_clos.refl ._ _)       := by {symmetry, apply M.tensor.identities}
 | ._ ._ _ (cong_clos.step _ _ _ p ps) :=
@@ -260,56 +260,56 @@ lemma interpret_cong_clos_inject_left
 
 -- TODO(tim): it would be cool if interpretation were a real functor from a suitable formal category
 
-def interpret_reassoc_dir_single_step : Π (Xs Ys : bin_tree C.Obj), reassoc_dir_single_step Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
+def interpret_reassoc_dir_single_step : Π (Xs Ys : bin_tree' C.Obj), reassoc_dir_single_step Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
 | ._ ._ (reassoc_dir_single_step.rotate_right s t u) := M.associator _ _ _
 
-def interpret_reassoc_dir {Xs Ys : bin_tree C.Obj} : reassoc_dir Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
+def interpret_reassoc_dir {Xs Ys : bin_tree' C.Obj} : reassoc_dir Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
   interpret_cong_clos interpret_reassoc_dir_single_step
 
 lemma interpret_reassoc_dir_functoriality
-    {Xs Ys Zs : bin_tree C.Obj} (ps : reassoc_dir Xs Ys) (qs : reassoc_dir Ys Zs)
+    {Xs Ys Zs : bin_tree' C.Obj} (ps : reassoc_dir Xs Ys) (qs : reassoc_dir Ys Zs)
     : interpret_reassoc_dir ps ⟩C⟩ interpret_reassoc_dir qs = interpret_reassoc_dir (cong_clos.trans ps qs)
   := by apply interpret_cong_clos_functoriality
 
-def interpret_reassoc_dir' {Xs Ys : bin_tree C.Obj} : reassoc_dir' Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
+def interpret_reassoc_dir' {Xs Ys : bin_tree' C.Obj} : reassoc_dir' Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
   interpret_cong_clos' interpret_reassoc_dir_single_step
 
-def interpret_reassoc_dir_step {Xs Ys : bin_tree C.Obj} : reassoc_dir_step Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
+def interpret_reassoc_dir_step {Xs Ys : bin_tree' C.Obj} : reassoc_dir_step Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
   interpret_cong_clos_step interpret_reassoc_dir_single_step
 
-def interpret_reassoc_single_step : Π (Xs Ys : bin_tree C.Obj), reassoc_single_step Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
+def interpret_reassoc_single_step : Π (Xs Ys : bin_tree' C.Obj), reassoc_single_step Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys)
 | ._ ._ (reassoc_single_step.rotate_right s t u) := M.associator _ _ _
 | ._ ._ (reassoc_single_step.rotate_left  s t u) := M.inverse_associator _ _ _
 
-def interpret_reassoc {Xs Ys : bin_tree C.Obj} : reassoc Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
+def interpret_reassoc {Xs Ys : bin_tree' C.Obj} : reassoc Xs Ys → C.Hom (tensor_tree Xs) (tensor_tree Ys) :=
   interpret_cong_clos interpret_reassoc_single_step
 
-@[reducible] def to_lopsided (t : bin_tree C.Obj) : C.Hom (tensor_tree t) (tensor_tree t.lopsided) :=
+@[reducible] def to_lopsided (t : bin_tree' C.Obj) : C.Hom (tensor_tree t) (tensor_tree t.lopsided) :=
   interpret_reassoc_dir (reassoc_dir.reassoc_lopsided t)
 
 -- TODO: generalize to cong_clos
-def rewrite_source : Π {s₁ s₂ t : bin_tree α} (eq : s₁ = s₂), reassoc_dir s₁ t → reassoc_dir s₂ t
+def rewrite_source : Π {s₁ s₂ t : bin_tree' α} (eq : s₁ = s₂), reassoc_dir s₁ t → reassoc_dir s₂ t
 | _ ._ _ (eq.refl ._) p := p
 
 -- TODO: generalize to cong_clos
-def rewrite_target : Π {s t₁ t₂ : bin_tree α} (eq : t₁ = t₂), reassoc_dir s t₁ → reassoc_dir s t₂
+def rewrite_target : Π {s t₁ t₂ : bin_tree' α} (eq : t₁ = t₂), reassoc_dir s t₁ → reassoc_dir s t₂
 | _ ._ _ (eq.refl ._) p := p
 
 -- TODO: generalize to cong_clos
-def rewrite_target_cong : Π {s t₁ t₂ : bin_tree α} (eq : t₁ = t₂) (p : reassoc_dir s t₁), rewrite_target eq p == p
+def rewrite_target_cong : Π {s t₁ t₂ : bin_tree' α} (eq : t₁ = t₂) (p : reassoc_dir s t₁), rewrite_target eq p == p
 | _ _ ._ (eq.refl ._) p := heq.refl _
 
-@[reducible] def trans_lopsided' {s t : bin_tree α} (p : reassoc_dir s t) : reassoc_dir s t.lopsided :=
+@[reducible] def trans_lopsided' {s t : bin_tree' α} (p : reassoc_dir s t) : reassoc_dir s t.lopsided :=
   cong_clos.trans p (reassoc_dir.reassoc_lopsided t)
 
 -- all roads lead to rome
-def trans_lopsided {s t : bin_tree α} (p : reassoc_dir s t) : reassoc_dir s s.lopsided :=
+def trans_lopsided {s t : bin_tree' α} (p : reassoc_dir s t) : reassoc_dir s s.lopsided :=
   rewrite_target (eq.symm (reassoc_dir.respects_lopsided p)) (trans_lopsided' p)
 
-lemma trans_lopsided_heq {s t : bin_tree α} (p : reassoc_dir s t) : trans_lopsided p == trans_lopsided' p :=
+lemma trans_lopsided_heq {s t : bin_tree' α} (p : reassoc_dir s t) : trans_lopsided p == trans_lopsided' p :=
   by apply rewrite_target_cong
 
-lemma trans_lopsided_already_lopsided {s : bin_tree α} (p : reassoc_dir s s.lopsided) : trans_lopsided p == p :=
+lemma trans_lopsided_already_lopsided {s : bin_tree' α} (p : reassoc_dir s s.lopsided) : trans_lopsided p == p :=
   calc
          rewrite_target (eq.symm (reassoc_dir.respects_lopsided p)) (cong_clos.trans p (reassoc_dir.reassoc_lopsided s.lopsided))
       == cong_clos.trans p (reassoc_dir.reassoc_lopsided s.lopsided)
@@ -321,23 +321,23 @@ lemma trans_lopsided_already_lopsided {s : bin_tree α} (p : reassoc_dir s s.lop
   ... = p
       : by apply trans_refl_right
 
-@[reducible] def step_lopsided' {s t : bin_tree α} (p : reassoc_dir_step s t) : reassoc_dir s t.lopsided :=
+@[reducible] def step_lopsided' {s t : bin_tree' α} (p : reassoc_dir_step s t) : reassoc_dir s t.lopsided :=
   cong_clos.step _ _ _ p (reassoc_dir.reassoc_lopsided t)
 
-def step_lopsided {s t : bin_tree α} (p : reassoc_dir_step s t) : reassoc_dir s s.lopsided :=
+def step_lopsided {s t : bin_tree' α} (p : reassoc_dir_step s t) : reassoc_dir s s.lopsided :=
   rewrite_target (eq.symm (reassoc_dir_step.respects_lopsided p)) (step_lopsided' p)
 
-lemma step_lopsided_heq {s t : bin_tree α} (p : reassoc_dir_step s t) : step_lopsided p == step_lopsided' p :=
+lemma step_lopsided_heq {s t : bin_tree' α} (p : reassoc_dir_step s t) : step_lopsided p == step_lopsided' p :=
   by apply rewrite_target_cong
 
 -- -- TODO(tim): use well-founded induction once lean supports it
 -- -- TODO(tim): why does lean complain that there are missing cases???
 -- meta lemma directed_associator_coherence_thm :
---     Π (Xs Ys : bin_tree C.Obj) (e : Ys = Xs.lopsided)
+--     Π (Xs Ys : bin_tree' C.Obj) (e : Ys = Xs.lopsided)
 --       (p q : reassoc_dir Xs Ys),
 --       interpret_reassoc_dir p = interpret_reassoc_dir q
 -- | (branch l r) ._ (eq.refl ._) (cong_clos.step ._ ._ ._ (cong_clos_step.left ._ lp ._ p) ps) (cong_clos.step ._ ._ ._ (cong_clos_step.left ._ lq ._ q) qs) :=
---     have H : Π (l' : bin_tree C.Obj) (f : reassoc_dir_step l l') (fs : reassoc_dir (branch l' r) (branch l r).lopsided),
+--     have H : Π (l' : bin_tree' C.Obj) (f : reassoc_dir_step l l') (fs : reassoc_dir (branch l' r) (branch l r).lopsided),
 --                interpret_reassoc_dir (step (branch l r) _ _ (cong_clos_step.left _ _ r f) fs) == 
 --                (to_lopsided l ⟨⊗⟩ C.identity (tensor_tree r)) ⟩C⟩ to_lopsided (branch l.lopsided r), from
 --         λ l' f fs,

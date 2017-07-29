@@ -1,5 +1,3 @@
-import data.vector
-
 inductive {u} hlist : list (Type u) → Type (u+1)
 | nil  : hlist []
 | cons : Π {α : Type u} {l : list (Type u)}, α → hlist l → hlist (α::l)
