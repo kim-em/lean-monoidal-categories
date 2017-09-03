@@ -37,13 +37,7 @@ begin
         witness_1 := _,
         witness_2 := _
     },
-    intros,
-    automatic_induction,
-    automatic_induction,
-    split,
-    split,
-    all_goals { try { apply funext, intros, automatic_induction, automatic_induction } },
-    all_goals { try { simp } }
+    tidy,
 end
 
 definition test' : Isomorphism CategoryOfTypes ((ℕ × ℕ) × ℕ) (ℕ × (ℕ × ℕ)) :=
@@ -55,19 +49,6 @@ begin
         witness_2 := _
     },
     tidy,
-    -- PROJECT automation
-    any_goals { dsimp' },
-    any_goals { apply funext} ,
-    tactic.focus [ skip,skip,skip,(intro1 >>= λ x, skip),(intro1 >>= λ x, skip) ],
-    any_goals {automatic_induction},
-    any_goals {automatic_induction},
-    any_goals {simp},
-    any_goals {dsimp'},
-    any_goals {applicable},
-    any_goals {dsimp'},
-    any_goals {applicable},
-    any_goals {dsimp'},
-    any_goals {refl},
 end
 
 -- definition AssociatorForTypes : Associator TensorProductOfTypes :=
