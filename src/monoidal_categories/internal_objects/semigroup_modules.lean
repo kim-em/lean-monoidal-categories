@@ -24,7 +24,7 @@ structure SemigroupModuleMorphism { C : Category } { m : MonoidalStructure C } {
 
 attribute [simp,ematch] SemigroupModuleMorphism.compatibility
 
-@[applicable] lemma SemigroupModuleMorphism_pointwisewise_equal
+@[applicable] lemma SemigroupModuleMorphism_pointwise_equal
   { C : Category } 
   { m : MonoidalStructure C } 
   { A : SemigroupObject m }
@@ -40,17 +40,22 @@ attribute [simp,ematch] SemigroupModuleMorphism.compatibility
 instance SemigroupModuleMorphism_coercion_to_map { C : Category } { m : MonoidalStructure C }  { A : SemigroupObject m } ( X Y : SemigroupModuleObject A ) : has_coe (SemigroupModuleMorphism X Y) (C.Hom X Y) :=
   { coe := SemigroupModuleMorphism.map }
 
-
--- FIXME get this working again
--- definition CategoryOfSemigroupModules { C : Category } { m : MonoidalStructure C } ( A : SemigroupObject m ) : Category :=
--- {
---   Obj := SemigroupModuleObject A,
---   Hom := λ X Y, SemigroupModuleMorphism X Y,
---   identity := λ X, ⟨ C.identity X, ♮ ⟩,
---   compose  := λ X Y Z f g, ⟨ C.compose f.map g.map, ♮ ⟩,
---   left_identity  := ♯,
---   right_identity := ♯,
---   associativity  := ♮
--- }
+definition CategoryOfSemigroupModules { C : Category } { m : MonoidalStructure C } ( A : SemigroupObject m ) : Category :=
+{
+  Obj := SemigroupModuleObject A,
+  Hom := λ X Y, SemigroupModuleMorphism X Y,
+  identity := λ X, ⟨ C.identity X, ♯ ⟩,
+  compose  := λ X Y Z f g, ⟨ C.compose f.map g.map, begin
+                                                     tidy,
+                                                     rewrite ← C.associativity,
+                                                     rewrite ← f.compatibility,
+                                                     rewrite C.associativity,
+                                                     rewrite ← g.compatibility,
+                                                     tidy,
+                                                    end ⟩,
+  left_identity  := ♯,
+  right_identity := ♯,
+  associativity  := ♯
+}
 
 end categories.internal_objects
