@@ -1,7 +1,8 @@
 [package]
 name = "monoidal-categories"
 version = "0.1"
+lean_version = "master"
 path = "src"
 
 [dependencies]
-lean-category-theory = {git = "https://github.com/semorrison/lean-category-theory", rev = "11c2268aa8f5035eb2440a3c4d85b32c0b6ccf55"}
+lean-category-theory = {git = "https://github.com/semorrison/lean-category-theory", rev = "1b9c907220f44715245ab17fa3372460bc08fc6f"}
