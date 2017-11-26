@@ -2,7 +2,7 @@
 name = "monoidal-categories"
 version = "0.1"
 lean_version = "master"
-path = "src"
+path = "."
 
 [dependencies]
 lean-category-theory = {git = "https://github.com/semorrison/lean-category-theory", rev = "1b9c907220f44715245ab17fa3372460bc08fc6f"}
