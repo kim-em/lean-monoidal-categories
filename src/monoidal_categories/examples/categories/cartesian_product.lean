@@ -2,7 +2,7 @@
 -- -- Released under Apache 2.0 license as described in the file LICENSE.
 -- -- Authors: Stephen Morgan, Scott Morrison
 -- import ...monoidal_category
--- import category_theory.discrete_category
+-- import categories.discrete_category
 
 -- open categories
 -- open categories.functor

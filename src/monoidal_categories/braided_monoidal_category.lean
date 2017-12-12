@@ -2,7 +2,7 @@
 -- Released under Apache 2.0 license as described in the file LICENSE.
 -- Authors: Stephen Morgan, Scott Morrison
 import .monoidal_category
-import category_theory.products.switch
+import categories.products.switch
 
 namespace categories.braided_monoidal_category
 

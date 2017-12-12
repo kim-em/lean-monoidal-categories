@@ -2,7 +2,7 @@
 -- Released under Apache 2.0 license as described in the file LICENSE.
 -- Authors: Stephen Morgan, Scott Morrison
 
-import category_theory.functor
+import categories.functor
 import .semigroups.semigroups
 
 namespace categories.examples.monoids
