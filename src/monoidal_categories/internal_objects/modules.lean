@@ -14,30 +14,40 @@ structure ModuleObject { C : Category } { m : MonoidalStructure C } ( A : Monoid
 
 attribute [simp,ematch] ModuleObject.identity
 
-structure ModuleMorphism { C : Category } { m : MonoidalStructure C } { A : MonoidObject m } ( X Y : ModuleObject A ) extends SemigroupModuleMorphism X.to_SemigroupModuleObject Y.to_SemigroupModuleObject
+structure ModuleMorphism { C : Category } { m : MonoidalStructure C } { A : MonoidObject m } ( X Y : ModuleObject A )
+  extends SemigroupModuleMorphism X.to_SemigroupModuleObject Y.to_SemigroupModuleObject
 
--- @[applicable] lemma ModuleMorphism_pointwisewise_equal
---   { C : Category }
---   { m : MonoidalStructure C }
---   { A : MonoidObject m }
---   { X Y : ModuleObject A }
---   ( f g : ModuleMorphism X Y )
---   ( w : f.map = g.map ) : f = g :=
---   begin
---     induction f,
---     induction g,
---     admit -- FIXME something weird is going on with structures here.
---   end
+@[applicable] lemma ModuleMorphism_pointwise_equal
+  { C : Category }
+  { m : MonoidalStructure C }
+  { A : MonoidObject m }
+  { X Y : ModuleObject A }
+  ( f g : ModuleMorphism X Y )
+  ( w : f.map = g.map ) : f = g :=
+  begin
+    induction f with f_underlying,
+    induction g with g_underlying,
+    tidy,
+    have p : f_underlying = g_underlying,
+    tidy,
+  end
 
--- definition CategoryOfModules { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) : Category :=
--- {
---   Obj := ModuleObject A,
---   Hom := λ X Y, ModuleMorphism X Y,
---   identity := λ X, ⟨ C.identity X.module, ♮ ⟩,
---   compose  := λ _ _ _ f g, ⟨ C.compose f.map g.map, ♮ ⟩,
---   left_identity  := ♯,
---   right_identity := ♯,
---   associativity  := ♮
--- }
+definition CategoryOfModules { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) : Category :=
+{
+  Obj := ModuleObject A,
+  Hom := λ X Y, ModuleMorphism X Y,
+  identity := λ X, ⟨ ⟨ C.identity X.module, ♯ ⟩ ⟩, -- we need double ⟨ ⟨ ... ⟩ ⟩ because we're using structure extension
+  compose  := λ _ _ _ f g, ⟨ ⟨ C.compose f.map g.map, begin
+                                                     tidy,
+                                                     rewrite ← C.associativity,
+                                                     rewrite ← f.compatibility,
+                                                     rewrite C.associativity,
+                                                     rewrite ← g.compatibility,
+                                                     tidy,
+                                                    end ⟩ ⟩ ,
+  left_identity  := ♯,
+  right_identity := ♯,
+  associativity  := ♯
+}
 
 end categories.internal_objects

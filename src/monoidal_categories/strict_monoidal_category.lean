@@ -17,8 +17,9 @@ structure TensorProduct_is_strict { C : Category } ( tensor : TensorProduct C ) 
   ( strictLeftTensorUnit  : ∀ X : C.Obj, tensor.onObjects (tensor_unit, X) = X )
   ( strictRightTensorUnit : ∀ X : C.Obj, tensor.onObjects (X, tensor_unit) = X )
 
-attribute [ematch] TensorProduct_is_strict.associativeOnObjects
--- TODO why is this not a valid simplification lemma?
+-- TODO why is this not a valid ematch lemma?
+-- attribute [ematch] TensorProduct_is_strict.associativeOnObjects
+-- TODO why is this not a valid simp lemma?
 -- attribute [simp,ematch] TensorProduct_is_strict.strictLeftTensorUnit
 -- attribute [simp,ematch] TensorProduct_is_strict.strictRightTensorUnit
 

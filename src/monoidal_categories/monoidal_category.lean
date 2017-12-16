@@ -92,21 +92,23 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
       (@Functor.onMorphisms _ _ m.tensor ⟨V, Y⟩ ⟨W, Z⟩ ⟨g, k⟩) :=
   @Functor.functoriality (C × C) C m.tensor ⟨U, X⟩ ⟨V, Y⟩ ⟨W, Z⟩ ⟨f, h⟩ ⟨g, k⟩
 
-@[ematch] lemma MonoidalStructure.interchange_left_identity
+@[simp,ematch] lemma MonoidalStructure.interchange_left_identity
   { C : Category }
   ( m : MonoidalStructure C )
   { W X Y Z : C.Obj }
   ( f : C.Hom W X ) ( g : C.Hom X Y ) :
-  @Functor.onMorphisms _ _ m.tensor ⟨W, Z⟩ ⟨Y, Z⟩ ⟨C.compose f g, C.identity Z⟩
-    = C.compose (@Functor.onMorphisms _ _ m.tensor (W, Z) (X, Z) (f, C.identity Z)) (@Functor.onMorphisms _ _ m.tensor (X, Z) (Y, Z) (g, C.identity Z)) := ♯
+  C.compose (@Functor.onMorphisms _ _ m.tensor (W, Z) (X, Z) (f, C.identity Z)) (@Functor.onMorphisms _ _ m.tensor (X, Z) (Y, Z) (g, C.identity Z))
+    = @Functor.onMorphisms _ _ m.tensor ⟨W, Z⟩ ⟨Y, Z⟩ ⟨C.compose f g, C.identity Z⟩
+    := ♯
 
-@[ematch] lemma MonoidalStructure.interchange_right_identity
+@[simp,ematch] lemma MonoidalStructure.interchange_right_identity
   { C : Category }
   ( m : MonoidalStructure C )
   { W X Y Z : C.Obj }
   ( f : C.Hom W X ) ( g : C.Hom X Y ) :
-  @Functor.onMorphisms _ _ m.tensor ⟨Z, W⟩ ⟨Z, Y⟩ ⟨C.identity Z, C.compose f g⟩
-    = C.compose (@Functor.onMorphisms _ _ m.tensor (Z, W) (Z, X) (C.identity Z, f)) (@Functor.onMorphisms _ _ m.tensor (Z, X) (Z, Y) (C.identity Z, g)) := ♯
+  C.compose (@Functor.onMorphisms _ _ m.tensor (Z, W) (Z, X) (C.identity Z, f)) (@Functor.onMorphisms _ _ m.tensor (Z, X) (Z, Y) (C.identity Z, g)) 
+    = @Functor.onMorphisms _ _ m.tensor ⟨Z, W⟩ ⟨Z, Y⟩ ⟨C.identity Z, C.compose f g⟩
+    := ♯
 
 @[ematch] lemma MonoidalStructure.interchange_identities
   { C : Category }

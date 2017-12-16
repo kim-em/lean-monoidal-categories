@@ -2,7 +2,7 @@
 -- Released under Apache 2.0 license as described in the file LICENSE.
 -- Authors: Stephen Morgan, Scott Morrison
 import ..braided_monoidal_category
-import category_theory.functor_categories.isomorphisms
+import categories.functor_categories.isomorphisms
 
 open categories
 open categories.functor
