@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/semorrison/lean-monoidal-categories.svg?branch=master)](https://travis-ci.org/semorrison/lean-monoidal-categories)
+
 This repository contains some experimental work on monoidal categories, developed in the interactive
 theorem prover Lean.
 
