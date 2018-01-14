@@ -3,7 +3,7 @@
 -- Authors: Stephen Morgan, Scott Morrison
 
 import ...braided_monoidal_category
-import .semigroups
+import categories.examples.semigroups
 
 open categories.natural_transformation
 
