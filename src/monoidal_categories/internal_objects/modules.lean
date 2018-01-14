@@ -28,8 +28,6 @@ structure ModuleMorphism { C : Category } { m : MonoidalStructure C } { A : Mono
     induction f with f_underlying,
     induction g with g_underlying,
     tidy,
-    have p : f_underlying = g_underlying,
-    tidy,
   end
 
 definition CategoryOfModules { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) : Category :=
