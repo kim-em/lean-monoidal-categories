@@ -47,17 +47,17 @@ local attribute [simp] Category.associativity
 
 definition Associator_for_Products ( C : Category ) [ has_BinaryProducts C ] : Associator (TensorProduct_from_Products C) := 
 begin
-  tidy { hints := [9, 8, 9, 8, 7, 6, 6, 6, 6, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10, 9, 8, 7, 6, 6, 6, 6, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10] }
+  tidy { hints := [9, 8, 9, 8, 7, 6, 6, 6, 6, 6, 9, 7, 6, 10, 6, 10, 10, 9, 8, 7, 6, 6, 6, 6, 6, 9, 7, 6, 6, 10, 10, 10, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10] }
 end
 
 definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) := 
 begin
-  tidy { hints := [9, 8, 9, 8, 7, 6, 7, 9, 10, 9, 8, 7, 6, 6, 9, 17, 18, 17, 17, 20, 21, 10, 10] }
+  tidy { hints := [9, 8, 9, 8, 7, 6, 9, 7, 10, 9, 8, 7, 6, 6, 9, 17, 18, 17, 17, 20, 18, 17, 17, 21, 10, 10] }
 end
 
 definition RightUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) := 
 begin
-  tidy { hints := [9, 8, 9, 8, 7, 6, 7, 9, 10, 9, 8, 7, 6, 9, 17, 18, 17, 17, 20, 21, 10, 10] }
+  tidy { hints := [9, 8, 9, 8, 7, 6, 9, 7, 10, 9, 8, 7, 6, 9, 17, 18, 17, 17, 20, 18, 17, 17, 21, 10, 10] }
 end
 
 definition MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : MonoidalStructure C :=
@@ -75,7 +75,7 @@ open categories.braided_monoidal_category
 
 definition Symmetry_on_MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : Symmetry (MonoidalStructure_from_Products C) := 
 begin
-  tidy { hints := [8, 8, 9, 8, 9, 8, 7, 6, 6, 6, 7, 6, 9, 10, 9, 10, 9, 8, 7, 6, 6, 6, 7, 6, 9, 10, 9, 10, 6, 7, 6, 9, 10, 9, 10, 6, 7, 6, 9, 10, 9, 10, 9, 7, 6, 6, 10, 10, 10, 9, 7, 6, 6, 10, 10, 10, 7, 6, 9, 10, 9, 10] }
+  tidy { hints := [8, 8, 9, 8, 9, 8, 7, 6, 6, 6, 9, 7, 6, 10, 10, 9, 8, 7, 6, 6, 6, 9, 7, 6, 10, 10, 6, 7, 6, 9, 10, 9, 10, 6, 7, 6, 9, 10, 9, 10, 9, 7, 6, 6, 10, 10, 10, 9, 7, 6, 6, 10, 10, 10, 7, 6, 9, 10, 9, 10] }
 end
 
 open categories.types
