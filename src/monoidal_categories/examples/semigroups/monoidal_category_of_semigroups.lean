@@ -8,10 +8,17 @@ import ...monoidal_structure_from_products
 import categories.examples.semigroups
 
 open categories.natural_transformation
+open categories.monoidal_category
 
 namespace categories.examples.semigroups
 
-open categories.monoidal_category
+-- PROJECT really this should be a special case of the (uniquely braided, symmetric) monoidal structure coming from a product.
+
+-- open categories.products
+-- open categories.universal
+-- definition MonoidalStructureOnCategoryOfSemigroups : MonoidalStructure CategoryOfSemigroups := MonoidalStructure_from_Products CategoryOfSemigroups
+
+-- Below, I was doing it directly:
 
 local attribute [applicable] semigroup.mul_assoc
 
@@ -28,52 +35,6 @@ definition {u} semigroup_morphism_product
   map := λ p, (f p.1, g p.2),
   multiplicative := ♯
 }
-
--- PROJECT really this should be a special case of the (uniquely braided, symmetric) monoidal structure coming from a product.
-
-open categories.products
-open categories.universal
-
--- instance Semigroups_has_TerminalObject : has_TerminalObject CategoryOfSemigroups := {
---   terminal_object := {
---     terminal_object := ⟨ punit, trivial_semigroup ⟩,
---     morphism_to_terminal_object_from := ♯,
---     uniqueness_of_morphisms_to_terminal_object := begin tidy, admit end
---   }
--- }
-
--- instance Semigroups_has_BinaryProducts : has_BinaryProducts CategoryOfSemigroups := {
---   binary_product := λ s t, {
---     product             := ⟨ s.1 × t.1, semigroup_product s.2 t.2 ⟩ ,
---     left_projection     := {
---       map := prod.fst,
---       multiplicative := ♯
---     },
---     right_projection    := {
---       map := prod.snd,
---       multiplicative := ♯
---     },
---     map                 := λ r f g, {
---       map := λ x, (f.map x, g.map x),
---       multiplicative := ♯ 
---     },
---     left_factorisation  := ♯,
---     right_factorisation := ♯,
---     uniqueness          := λ r f g w₁ w₂, begin
---       apply semigroup_morphism_pointwise_equality,
---       intro x,
---       apply pairs_componentwise_equal,
---       admit,
---       admit
---     end
---   }
--- }
-
-
--- definition MonoidalStructureOnCategoryOfSemigroups : MonoidalStructure CategoryOfSemigroups := MonoidalStructure_from_Products CategoryOfSemigroups
-
-
--- Below, I was doing it directly:
 
 -- definition TensorProduct_for_Semigroups : TensorProduct CategoryOfSemigroups := {
 --     onObjects     := λ p, ⟨ p.1.1 × p.2.1, semigroup_product p.1.2 p.2.2 ⟩,
