@@ -20,7 +20,7 @@ universe variables u v
 -- https://groups.google.com/d/msg/lean-user/3qzchWkut0g/0QR6_cS8AgAJ
 -/
 
-definition Commutor { C : Category.{u v} } (m : MonoidalStructure C) := 
+@[reducible] definition Commutor { C : Category.{u v} } (m : MonoidalStructure C) := 
   NaturalIsomorphism (m.tensor) (FunctorComposition (SwitchProductCategory C C) m.tensor)
 
 @[reducible] definition Hexagon_1 { C : Category.{u v} } { m : MonoidalStructure C } ( β : Commutor m ) :=

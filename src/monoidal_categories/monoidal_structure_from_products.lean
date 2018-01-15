@@ -3,6 +3,8 @@
 -- Authors: Scott Morrison
 import .braided_monoidal_category
 import categories.universal.instances
+import categories.types
+import categories.universal.types
 
 open categories
 open categories.functor
@@ -48,9 +50,15 @@ begin
   tidy { hints := [9, 8, 9, 8, 7, 6, 6, 6, 6, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10, 9, 8, 7, 6, 6, 6, 6, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10] }
 end
 
-definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) := ♯
+definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) := 
+begin
+  tidy { hints := [9, 8, 9, 8, 7, 6, 7, 9, 10, 9, 8, 7, 6, 6, 9, 17, 18, 17, 17, 20, 21, 10, 10] }
+end
 
-definition RightUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) := ♯
+definition RightUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) := 
+begin
+  tidy { hints := [9, 8, 9, 8, 7, 6, 7, 9, 10, 9, 8, 7, 6, 9, 17, 18, 17, 17, 20, 21, 10, 10] }
+end
 
 definition MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : MonoidalStructure C :=
 {
@@ -65,25 +73,15 @@ definition MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject
 
 open categories.braided_monoidal_category
 
-definition Symmetry_on_MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : Symmetry (MonoidalStructure_from_Products C) := {
-  braiding := {
-    morphism  := {
-      components := begin tidy, end,
-      naturality := by tidy
-    },
-    inverse   := {
-      components := by tidy,
-      naturality := by tidy
-    },
-    witness_1 := ♯,
-    witness_2 := ♯
-  },
-  hexagon_1 := ♯,
-  hexagon_2 := ♯,
-  symmetry  := ♯
-}
+definition Symmetry_on_MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : Symmetry (MonoidalStructure_from_Products C) := 
+begin
+  tidy { hints := [8, 8, 9, 8, 9, 8, 7, 6, 6, 6, 7, 6, 9, 10, 9, 10, 9, 8, 7, 6, 6, 6, 7, 6, 9, 10, 9, 10, 6, 7, 6, 9, 10, 9, 10, 6, 7, 6, 9, 10, 9, 10, 9, 7, 6, 6, 10, 10, 10, 9, 7, 6, 6, 10, 10, 10, 7, 6, 9, 10, 9, 10] }
+end
 
--- PROJECT show that this monoidal structure is uniquely braided
--- PROJECT and that braiding is symmetric
+open categories.types
+
+private definition symmetry_on_types := (Symmetry_on_MonoidalStructure_from_Products CategoryOfTypes).braiding.morphism.components 
+
+private example : symmetry_on_types (ℕ, bool) (3, ff) == (ff, 3) := ♯
 
 end categories.monoidal_category
