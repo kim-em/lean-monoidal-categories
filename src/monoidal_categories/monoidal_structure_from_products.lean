@@ -52,7 +52,7 @@ definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ h
 
 definition RightUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) := ♯
 
-definition MonoidalStructure_from_Products { C : Category } [ has_TerminalObject C ] [ has_BinaryProducts C ] : MonoidalStructure C :=
+definition MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : MonoidalStructure C :=
 {
     tensor := TensorProduct_from_Products C,
     tensor_unit := terminal_object,
@@ -61,6 +61,26 @@ definition MonoidalStructure_from_Products { C : Category } [ has_TerminalObject
     right_unitor_transformation := RightUnitor_for_Products C,
     pentagon := ♯,
     triangle := ♯
+}
+
+open categories.braided_monoidal_category
+
+definition Symmetry_on_MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : Symmetry (MonoidalStructure_from_Products C) := {
+  braiding := {
+    morphism  := {
+      components := begin tidy, end,
+      naturality := by tidy
+    },
+    inverse   := {
+      components := by tidy,
+      naturality := by tidy
+    },
+    witness_1 := ♯,
+    witness_2 := ♯
+  },
+  hexagon_1 := ♯,
+  hexagon_2 := ♯,
+  symmetry  := ♯
 }
 
 -- PROJECT show that this monoidal structure is uniquely braided
