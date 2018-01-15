@@ -43,7 +43,27 @@ definition TensorProduct_from_Products ( C : Category ) [ has_BinaryProducts C ]
 
 local attribute [simp] Category.associativity
 
--- PROJECT seems to be taking forever
--- definition Associator_for_Products ( C : Category ) [ has_BinaryProducts C ] : Associator (TensorProduct_from_Products C) := ♯
+definition Associator_for_Products ( C : Category ) [ has_BinaryProducts C ] : Associator (TensorProduct_from_Products C) := 
+begin
+  tidy { hints := [9, 8, 9, 8, 7, 6, 6, 6, 6, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10, 9, 8, 7, 6, 6, 6, 6, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10] }
+end
+
+definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) := ♯
+
+definition RightUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) := ♯
+
+definition MonoidalStructure_from_Products { C : Category } [ has_TerminalObject C ] [ has_BinaryProducts C ] : MonoidalStructure C :=
+{
+    tensor := TensorProduct_from_Products C,
+    tensor_unit := terminal_object,
+    associator_transformation   := Associator_for_Products C,
+    left_unitor_transformation  := LeftUnitor_for_Products C,
+    right_unitor_transformation := RightUnitor_for_Products C,
+    pentagon := ♯,
+    triangle := ♯
+}
+
+-- PROJECT show that this monoidal structure is uniquely braided
+-- PROJECT and that braiding is symmetric
 
 end categories.monoidal_category

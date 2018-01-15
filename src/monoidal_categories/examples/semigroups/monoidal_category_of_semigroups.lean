@@ -18,8 +18,6 @@ definition {u} semigroup_product { α β : Type u } ( s : semigroup α ) ( t: se
   mul_assoc := ♯
 }
 
-set_option pp.all true
-
 definition {u} semigroup_morphism_product
   { α β γ δ : Type u }
   { s_f : semigroup α } { s_g: semigroup β } { t_f : semigroup γ } { t_g: semigroup δ }
@@ -133,7 +131,7 @@ definition SymmetryOnCategoryOfSemigroups : Symmetry MonoidalStructureOnCategory
   },
   hexagon_1 := ♯,
   hexagon_2 := ♯,
-  symmetry  := ♮
+  symmetry  := ♯
 }
 
 end categories.examples.semigroups
