@@ -25,9 +25,10 @@ structure {u v} HalfBraidingMorphism  { C : Category.{u v} } { m : MonoidalStruc
   (morphism : C.Hom X Y)
   -- FIXME I've had to write out the statement gorily, so that it can match.
   -- (witness : ∀ Z : C.Obj, C.compose (X.commutor Z) (m.tensorMorphisms (C.identity Z) morphism) = C.compose (m.tensorMorphisms morphism (C.identity Z)) (Y.commutor Z))
-  (witness : ∀ Z : C.Obj, C.compose (X.commutor.morphism.components Z) (@Functor.onMorphisms _ _ m.tensor (Z, X) (Z, Y) (C.identity Z, morphism)) = C.compose (@Functor.onMorphisms _ _ m.tensor (X, Z) (Y, Z) (morphism, C.identity Z)) (Y.commutor.morphism.components Z))
+  (witness : ∀ Z : C.Obj, C.compose (X.commutor.morphism.components Z) (@Functor.onMorphisms _ _ m.tensor (Z, X) (Z, Y) (C.identity Z, morphism)) = C.compose (@Functor.onMorphisms _ _ m.tensor (X, Z) (Y, Z) (morphism, C.identity Z)) (Y.commutor.morphism.components Z) . tidy')
 
-attribute [simp,ematch] HalfBraidingMorphism.witness
+make_lemma HalfBraidingMorphism.witness
+attribute [simp,ematch] HalfBraidingMorphism.witness_lemma
 
 @[applicable] lemma HalfBraidingMorphism_equal
   { C : Category }
@@ -38,33 +39,26 @@ attribute [simp,ematch] HalfBraidingMorphism.witness
   begin
     induction f,
     induction g,
-    blast
+    tidy,
   end
 
 definition {u v} DrinfeldCentre { C : Category.{u v} } ( m : MonoidalStructure C )  : Category := {
   Obj := HalfBraiding m,
   Hom := λ X Y, HalfBraidingMorphism X Y,
   identity := λ X, {
-    morphism := C.identity X,
-    witness  := ♯
+    morphism := C.identity X
   },
   compose := λ P Q R f g, {
     morphism := C.compose f.morphism g.morphism,
     witness  := 
       begin
-        -- PROJECT improve automation. This is also affected by https://github.com/leanprover/lean/issues/1552
-        intros, 
-        dsimp,
-        -- blast, -- perhaps should work, but very slow
+        tidy,
         rewrite ← m.interchange_right_identity,
         rewrite ← m.interchange_left_identity,
         rewrite ← C.associativity,
         tidy,
       end
-  },
-  left_identity  := ♯,
-  right_identity := ♯,
-  associativity  := ♯
+  }
 }
 
 end categories.drinfeld_centre

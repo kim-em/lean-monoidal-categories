@@ -42,10 +42,7 @@ definition CategoryOfModules { C : Category } { m : MonoidalStructure C } ( A : 
                                                      rewrite C.associativity,
                                                      rewrite ← g.compatibility,
                                                      tidy,
-                                                    end ⟩ ⟩ ,
-  left_identity  := ♯,
-  right_identity := ♯,
-  associativity  := ♯
+                                                    end ⟩ ⟩
 }
 
 end categories.internal_objects

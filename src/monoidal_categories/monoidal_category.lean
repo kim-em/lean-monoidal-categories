@@ -17,11 +17,13 @@ structure {u v} MonoidalStructure ( C : Category.{u v} ) :=
   (left_unitor_transformation  : LeftUnitor tensor_unit tensor)
   (right_unitor_transformation : RightUnitor tensor_unit tensor)
 
-  (pentagon                  : Pentagon associator_transformation)
-  (triangle                  : Triangle tensor_unit left_unitor_transformation right_unitor_transformation associator_transformation)
+  (pentagon                  : Pentagon associator_transformation . tidy')
+  (triangle                  : Triangle tensor_unit left_unitor_transformation right_unitor_transformation associator_transformation . tidy')
 
-attribute [ematch] MonoidalStructure.pentagon
-attribute [simp,ematch] MonoidalStructure.triangle
+make_lemma MonoidalStructure.pentagon
+make_lemma MonoidalStructure.triangle
+attribute [ematch] MonoidalStructure.pentagon_lemma
+attribute [simp,ematch] MonoidalStructure.triangle_lemma
 
 instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe (MonoidalStructure C) (TensorProduct C) :=
   { coe := MonoidalStructure.tensor }
@@ -50,7 +52,6 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
   ( m : MonoidalStructure C )
   ( X : C.Obj ) : C.Hom X (m.tensorObjects X m.tensor_unit) := m.right_unitor_transformation.inverse.components X
 
-
 @[reducible] definition MonoidalStructure.associator
   { C : Category }
   ( m : MonoidalStructure C )
@@ -63,24 +64,6 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
   ( X Y Z : C.Obj ) : C.Hom (m.tensorObjects X (m.tensorObjects Y Z)) (m.tensorObjects (m.tensorObjects X Y) Z) :=
   m.associator_transformation.inverse.components ⟨⟨X, Y⟩, Z⟩
 
--- @[ematch] lemma MonoidalStructure.triangle_components { C : Category } ( m : MonoidalStructure C ) ( X Y : C.Obj ) :
---   C.compose (m.associator X m.tensor_unit Y) (m.tensorMorphisms (C.identity X) (m.left_unitor Y)) = m.tensorMorphisms (m.right_unitor X) (C.identity Y) := 
---   begin
---     exact m.triangle X Y,
---   end
-
--- @[ematch] lemma MonoidalStructure.triangle_components_inverse { C : Category } ( m : MonoidalStructure C ) ( X Y : C.Obj ) :
---   C.compose (m.inverse_associator X m.tensor_unit Y) (m.tensorMorphisms (m.right_unitor X) (C.identity Y)) = m.tensorMorphisms (C.identity X) (m.left_unitor Y) := 
---   begin
---     erewrite ← m.triangle_components X Y,
---     erewrite ← C.associativity,
---     dsimp,
---     erewrite m.associator_transformation.componentwise_witness_2 ((X, m.tensor_unit), Y),
---     simp,
---     trivial
---   end
-
--- TODO This works, but why do we need to be so explicit??
 @[ematch] definition MonoidalStructure.interchange
   { C : Category }
   ( m : MonoidalStructure C )
@@ -131,28 +114,9 @@ instance MonoidalStructure_coercion_to_TensorProduct { C : Category } : has_coe 
   ( X Y : C.Obj ) :
    @Functor.onMorphisms _ _ (m.tensor) (X, Y) (X, Y) (C.identity X, C.identity Y) = C.identity (m.tensor.onObjects (X, Y)) := 
    begin
-    --  begin[smt]
-    --    eblast -- FIXME runs forever
-    --  end,
      rewrite ← m.tensor.identities,
      tidy
    end
-
--- lemma MonoidalStructure.associator_naturality_0
---   { C : Category }
---   ( m : MonoidalStructure C )
---   { U V W X Y Z : C.Obj }
---   (f : C U V ) ( g : C W X ) ( h : C Y Z ) :
---     C.compose
---       (m.tensorMorphisms (m.tensorMorphisms f g) h)
---       (m.associator_transformation ((V, X), Z))
---     = C.compose
---       (m.associator_transformation ((U, W), Y))
---       (m.tensorMorphisms f (m.tensorMorphisms g h)) := 
---   begin
---     dsimp,
---     apply @NaturalTransformation.naturality _ _ _ _ m.associator_transformation ((U, W), Y) ((V, X), Z) ((f, g), h)
---   end
 
 lemma MonoidalStructure.inverse_associator_naturality_0
   { C : Category }

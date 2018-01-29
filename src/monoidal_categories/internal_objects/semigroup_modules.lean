@@ -34,7 +34,7 @@ attribute [simp,ematch] SemigroupModuleMorphism.compatibility
   begin
     induction f,
     induction g,
-    blast
+    tidy
   end
 
 instance SemigroupModuleMorphism_coercion_to_map { C : Category } { m : MonoidalStructure C }  { A : SemigroupObject m } ( X Y : SemigroupModuleObject A ) : has_coe (SemigroupModuleMorphism X Y) (C.Hom X Y) :=
@@ -52,10 +52,7 @@ definition CategoryOfSemigroupModules { C : Category } { m : MonoidalStructure C
                                                      rewrite C.associativity,
                                                      rewrite ← g.compatibility,
                                                      tidy,
-                                                    end ⟩,
-  left_identity  := ♯,
-  right_identity := ♯,
-  associativity  := ♯
+                                                    end ⟩
 }
 
 end categories.internal_objects

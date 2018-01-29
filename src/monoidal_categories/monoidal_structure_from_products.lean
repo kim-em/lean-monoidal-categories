@@ -38,9 +38,7 @@ definition TensorProduct_from_Products ( C : Category ) [ has_BinaryProducts C ]
     onMorphisms   := λ X Y f, ((binary_product Y.1 Y.2).map
                                 (C.compose (binary_product X.1 X.2).left_projection (f.1))
                                 (C.compose (binary_product X.1 X.2).right_projection (f.2))
-                              ),
-    identities    := ♯,
-    functoriality := ♯
+                              )
 }
 
 local attribute [simp] Category.associativity
@@ -52,12 +50,12 @@ end
 
 definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) := 
 begin
-  tidy { hints := [9, 8, 9, 8, 7, 6, 9, 7, 10, 9, 8, 7, 6, 6, 9, 17, 18, 17, 17, 20, 18, 17, 17, 21, 10, 10] }
+  tidy { hints := [8, 8, 7, 6, 9, 7, 10, 8, 7, 6, 6, 9, 19, 20, 19, 19, 22, 20, 19, 19, 23, 10, 10] }
 end
 
 definition RightUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) := 
 begin
-  tidy { hints := [9, 8, 9, 8, 7, 6, 9, 7, 10, 9, 8, 7, 6, 9, 17, 18, 17, 17, 20, 18, 17, 17, 21, 10, 10] }
+  tidy { hints := [8, 8, 7, 6, 9, 7, 10, 8, 7, 6, 9, 19, 20, 19, 19, 22, 20, 19, 19, 23, 10, 10] }
 end
 
 definition MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : MonoidalStructure C :=

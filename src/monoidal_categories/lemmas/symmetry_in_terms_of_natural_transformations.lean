@@ -3,6 +3,7 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import ..braided_monoidal_category
 import categories.functor_categories.isomorphisms
+import tidy.its
 
 open categories
 open categories.functor
@@ -23,17 +24,11 @@ namespace categories.braided_monoidal_category
            ∘̬ (FunctorComposition_left_unitor m.tensor).morphism)
   end 
 
-lemma {u v} symmetry_in_terms_of_natural_transformations { C : Category.{u v} } { m : MonoidalStructure C } ( β : Symmetry m ) : squared_Braiding (β.braiding) = IdentityNaturalTransformation m.tensor := 
-  begin
-    tidy
-  end
+lemma {u v} symmetry_in_terms_of_natural_transformations { C : Category.{u v} } { m : MonoidalStructure C } ( β : Symmetry m ) : squared_Braiding (β.braiding) = IdentityNaturalTransformation m.tensor := ♯
 
 lemma {u v} symmetric_in_terms_of_components { C : Category.{u v} } { m : MonoidalStructure C } ( β : Braiding m ) ( e : squared_Braiding (β.braiding) = IdentityNaturalTransformation m.tensor ) : Symmetry m := {
   β with 
-    symmetry := λ X Y : C.Obj, begin
-                                 refine ( cast _ (congr_fun (congr_arg NaturalTransformation.components e) (X, Y)) ),
-                                 blast -- TODO rewrite an 'inexact' or 'its' tactic
-                               end
+    symmetry := λ X Y : C.Obj, by its congr_fun (congr_arg NaturalTransformation.components e) (X, Y),                               
 }
 
 end categories.braided_monoidal_category

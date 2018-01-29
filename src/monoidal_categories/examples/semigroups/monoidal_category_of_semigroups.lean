@@ -14,27 +14,11 @@ namespace categories.examples.semigroups
 
 -- PROJECT really this should be a special case of the (uniquely braided, symmetric) monoidal structure coming from a product.
 
--- open categories.products
--- open categories.universal
--- definition MonoidalStructureOnCategoryOfSemigroups : MonoidalStructure CategoryOfSemigroups := MonoidalStructure_from_Products CategoryOfSemigroups
+open categories.products
+open categories.universal
+definition MonoidalStructureOnCategoryOfSemigroups : MonoidalStructure CategoryOfSemigroups := MonoidalStructure_from_Products CategoryOfSemigroups
 
 -- Below, I was doing it directly:
-
-local attribute [applicable] semigroup.mul_assoc
-
-definition {u} semigroup_product { α β : Type u } ( s : semigroup α ) ( t: semigroup β ) : semigroup (α × β) := {
-  mul := λ p q, (p.fst * q.fst, p.snd * q.snd),
-  mul_assoc := ♯
-}
-
-definition {u} semigroup_morphism_product
-  { α β γ δ : Type u }
-  { s_f : semigroup α } { s_g: semigroup β } { t_f : semigroup γ } { t_g: semigroup δ }
-  ( f : semigroup_morphism s_f t_f ) ( g : semigroup_morphism s_g t_g )
-  : semigroup_morphism (semigroup_product s_f s_g) (semigroup_product t_f t_g) := {
-  map := λ p, (f p.1, g p.2),
-  multiplicative := ♯
-}
 
 -- definition TensorProduct_for_Semigroups : TensorProduct CategoryOfSemigroups := {
 --     onObjects     := λ p, ⟨ p.1.1 × p.2.1, semigroup_product p.1.2 p.2.2 ⟩,
