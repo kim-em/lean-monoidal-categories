@@ -60,7 +60,7 @@ structure Braiding { C : Category.{u v} } ( m : MonoidalStructure C ) :=
   ( hexagon_2 : Hexagon_2 braiding )
 -- PROJECT a theorem showing the hexagons hold as natural transformations
 
-structure Symmetry { C : Category.{u v} } ( m : MonoidalStructure C ) extends parent: Braiding m :=
+structure Symmetry { C : Category.{u v} } ( m : MonoidalStructure C ) extends Braiding m :=
   (symmetry: Π X Y : C.Obj, C.compose (braiding.morphism.components ⟨X, Y⟩) (braiding.morphism.components ⟨Y, X⟩) = C.identity (m.tensor.onObjects ⟨X, Y⟩) )
 
 attribute [simp,ematch] Symmetry.symmetry

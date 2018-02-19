@@ -17,8 +17,8 @@ structure {u v} MonoidalStructure ( C : Category.{u v} ) :=
   (left_unitor_transformation  : LeftUnitor tensor_unit tensor)
   (right_unitor_transformation : RightUnitor tensor_unit tensor)
 
-  (pentagon                  : Pentagon associator_transformation . tidy')
-  (triangle                  : Triangle tensor_unit left_unitor_transformation right_unitor_transformation associator_transformation . tidy')
+  (pentagon                  : Pentagon associator_transformation . obviously)
+  (triangle                  : Triangle tensor_unit left_unitor_transformation right_unitor_transformation associator_transformation . obviously)
 
 make_lemma MonoidalStructure.pentagon
 make_lemma MonoidalStructure.triangle

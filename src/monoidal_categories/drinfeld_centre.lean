@@ -25,7 +25,7 @@ structure {u v} HalfBraidingMorphism  { C : Category.{u v} } { m : MonoidalStruc
   (morphism : C.Hom X Y)
   -- FIXME I've had to write out the statement gorily, so that it can match.
   -- (witness : ∀ Z : C.Obj, C.compose (X.commutor Z) (m.tensorMorphisms (C.identity Z) morphism) = C.compose (m.tensorMorphisms morphism (C.identity Z)) (Y.commutor Z))
-  (witness : ∀ Z : C.Obj, C.compose (X.commutor.morphism.components Z) (@Functor.onMorphisms _ _ m.tensor (Z, X) (Z, Y) (C.identity Z, morphism)) = C.compose (@Functor.onMorphisms _ _ m.tensor (X, Z) (Y, Z) (morphism, C.identity Z)) (Y.commutor.morphism.components Z) . tidy')
+  (witness : ∀ Z : C.Obj, C.compose (X.commutor.morphism.components Z) (@Functor.onMorphisms _ _ m.tensor (Z, X) (Z, Y) (C.identity Z, morphism)) = C.compose (@Functor.onMorphisms _ _ m.tensor (X, Z) (Y, Z) (morphism, C.identity Z)) (Y.commutor.morphism.components Z) . obviously)
 
 make_lemma HalfBraidingMorphism.witness
 attribute [simp,ematch] HalfBraidingMorphism.witness_lemma
