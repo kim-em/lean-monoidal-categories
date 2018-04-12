@@ -5,18 +5,18 @@
 import ...braided_monoidal_category
 import categories.universal.instances
 import ...monoidal_structure_from_products
-import categories.examples.semigroups
+import categories.examples.groups
 
 open categories.natural_transformation
 open categories.monoidal_category
 
-namespace categories.examples.semigroups
+namespace categories.examples.groups
 
 open categories.products
 open categories.universal
-definition MonoidalStructureOnCategoryOfSemigroups : MonoidalStructure CategoryOfSemigroups := MonoidalStructure_from_Products CategoryOfSemigroups
+definition MonoidalStructureOnCategoryOfGroups : MonoidalStructure CategoryOfGroups := MonoidalStructure_from_Products CategoryOfGroups
 
 open categories.braided_monoidal_category
-definition SymmetryOnCategoryOfSemigroups : Symmetry MonoidalStructureOnCategoryOfSemigroups := Symmetry_on_MonoidalStructure_from_Products CategoryOfSemigroups 
+definition SymmetryOnCategoryOfGroups : Symmetry MonoidalStructureOnCategoryOfGroups := Symmetry_on_MonoidalStructure_from_Products CategoryOfGroups 
 
-end categories.examples.semigroups
+end categories.examples.groups
