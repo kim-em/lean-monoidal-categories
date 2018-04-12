@@ -35,30 +35,33 @@ namespace MonoidalStructure
 @[reducible] definition tensorObjects [ m : MonoidalStructure C ] ( X Y : C ) : C := tensor C ⟨X, Y⟩
 @[reducible] definition tensorMorphisms [ m : MonoidalStructure C ] { W X Y Z : C } ( f : W ⟶ X ) ( g : Y ⟶ Z ) : (tensor C ⟨W, Y⟩) ⟶ (tensor C ⟨X, Z⟩) := m.tensor.onMorphisms ⟨f, g⟩
 
+infixr ` ⊗ `:80 := tensorObjects -- type as \gg
+infixr ` ⊗ `:80 := tensorMorphisms -- type as \gg
+
 @[reducible] definition left_unitor
   [ m : MonoidalStructure C ]
-  ( X : C ) : (tensorObjects m.tensor_unit X) ⟶ X := ((left_unitor_transformation C).components X).morphism
+  ( X : C ) : (m.tensor_unit ⊗ X) ⟶ X := ((left_unitor_transformation C).components X).morphism
   
 @[reducible] definition right_unitor
   [ m : MonoidalStructure C ]
-  ( X : C ) : (tensorObjects X m.tensor_unit) ⟶ X := ((right_unitor_transformation C).components X).morphism
+  ( X : C ) : (X ⊗ m.tensor_unit) ⟶ X := ((right_unitor_transformation C).components X).morphism
 
 @[reducible] definition MonoidalStructure.inverse_left_unitor
   [ m : MonoidalStructure C ]
-  ( X : C ) : X ⟶ (tensorObjects m.tensor_unit X) := m.left_unitor_transformation.inverse.components X
+  ( X : C ) : X ⟶ (m.tensor_unit ⊗ X) := m.left_unitor_transformation.inverse.components X
   
 @[reducible] definition MonoidalStructure.inverse_right_unitor
   [ m : MonoidalStructure C ]
-  ( X : C) : X ⟶ (tensorObjects X m.tensor_unit) := m.right_unitor_transformation.inverse.components X
+  ( X : C) : X ⟶ (X ⊗ m.tensor_unit) := m.right_unitor_transformation.inverse.components X
 
 @[reducible] definition MonoidalStructure.associator
   [ m : MonoidalStructure C ]
-  ( X Y Z : C ) : (tensorObjects (tensorObjects X Y) Z) ⟶ (tensorObjects X (tensorObjects Y Z)) :=
+  ( X Y Z : C ) : ((X ⊗ Y) ⊗ Z) ⟶ (X ⊗ (Y ⊗ Z)) :=
   ((associator_transformation C).components ⟨⟨X, Y⟩, Z⟩).morphism
 
 @[reducible] definition MonoidalStructure.inverse_associator
   [ m : MonoidalStructure C ]
-  ( X Y Z : C ) : (tensorObjects X (tensorObjects Y Z)) ⟶ (tensorObjects (tensorObjects X Y) Z) :=
+  ( X Y Z : C ) : (X ⊗ (Y ⊗ Z)) ⟶ ((X ⊗ Y) ⊗ Z) :=
   m.associator_transformation.inverse.components ⟨⟨X, Y⟩, Z⟩
 
 @[ematch] definition MonoidalStructure.interchange
