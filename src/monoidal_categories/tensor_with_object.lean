@@ -10,26 +10,16 @@ open categories.natural_transformation
 
 namespace categories.monoidal_category
 
-universe variables u v
+universe variables u
 
-local attribute [ematch] MonoidalStructure.interchange_right_identity
+variables {C : Type (u+1)} [category C] [monoidal_category C]
 
-definition MonoidalStructure.tensor_on_left { C: Category.{u v} } ( m : MonoidalStructure C ) ( Z: C.Obj ) : Functor.{u v u v} C C :=
-{
-  onObjects := λ X, m.tensorObjects Z X,
-  onMorphisms := λ X Y f, m.tensorMorphisms (C.identity Z) f,
-  identities := ♯, -- This uses lemma TensorProduct_identities
-  functoriality := ♯ -- This uses lemma MonoidalStructure.interchange_right_identity
-}
+definition tensor_on_left (Z : C) : C ↝ C :=
+{ onObjects := λ X, Z ⊗ X,
+  onMorphisms := λ X Y f, 1 ⊗ f }
 
-local attribute [ematch] MonoidalStructure.interchange_left_identity
-
-definition MonoidalStructure.tensor_on_right { C: Category.{u v} } ( m : MonoidalStructure C ) ( Z: C.Obj ) : Functor.{u v u v} C C :=
-{
-  onObjects := λ X, m.tensorObjects X Z,
-  onMorphisms := λ X Y f, m.tensorMorphisms f (C.identity Z),
-  identities := ♯, -- This uses lemma TensorProduct_identities
-  functoriality := ♯ -- This uses lemma MonoidalStructure.interchange_left_identity
-}
+definition tensor_on_right (Z : C) : C ↝ C :=
+{ onObjects := λ X, X ⊗ Z,
+  onMorphisms := λ X Y f, f ⊗ 1 }
 
 end categories.monoidal_category
