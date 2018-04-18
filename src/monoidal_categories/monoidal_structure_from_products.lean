@@ -15,50 +15,47 @@ open categories.universal
 
 namespace categories.monoidal_category
 
-@[reducible,applicable] definition left_associated_triple_Product_projection_1 { C : Category } [ has_BinaryProducts C ] { X Y Z : C.Obj } : C.Hom (binary_product (binary_product X Y).product Z).product X :=
-  C.compose (BinaryProduct.left_projection _) (BinaryProduct.left_projection _)
-@[reducible,applicable] definition left_associated_triple_Product_projection_2 { C : Category } [ has_BinaryProducts C ] { X Y Z : C.Obj } : C.Hom (binary_product (binary_product X Y).product Z).product Y :=
-  C.compose (BinaryProduct.left_projection _) (BinaryProduct.right_projection _)
-@[reducible,applicable] definition right_associated_triple_Product_projection_2 { C : Category } [ has_BinaryProducts C ] { X Y Z : C.Obj } : C.Hom (binary_product X (binary_product Y Z).product).product Y :=
-  C.compose (BinaryProduct.right_projection _) (BinaryProduct.left_projection _)
-@[reducible,applicable] definition right_associated_triple_Product_projection_3 { C : Category } [ has_BinaryProducts C ] { X Y Z : C.Obj } : C.Hom (binary_product X (binary_product Y Z).product).product Z :=
-  C.compose (BinaryProduct.right_projection _) (BinaryProduct.right_projection _)
+universe u
+variables {C : Type (u+1)} [category C] [has_BinaryProducts C] {W X Y Z : C}
 
-@[simp] lemma left_factorisation_associated_1 { C : Category } [ has_BinaryProducts C ] { W X Y Z : C.Obj } 
-  ( h : C.Hom W Z ) ( f : C.Hom Z X ) ( g : C.Hom Z Y ) : C.compose (C.compose h ((binary_product X Y).map f g)) (binary_product X Y).left_projection = C.compose h f := ♯ 
-@[simp] lemma left_factorisation_associated_2 { C : Category } [ has_BinaryProducts C ] { W X Y Z : C.Obj } 
-  ( h : C.Hom X W ) ( f : C.Hom Z X ) ( g : C.Hom Z Y ) : C.compose ((binary_product X Y).map f g) (C.compose (binary_product X Y).left_projection h) = C.compose f h := ♯
-@[simp] lemma right_factorisation_associated_1 { C : Category } [ has_BinaryProducts C ] { W X Y Z : C.Obj } 
-  ( h : C.Hom W Z ) ( f : C.Hom Z X ) ( g : C.Hom Z Y ) : C.compose (C.compose h ((binary_product X Y).map f g)) (binary_product X Y).right_projection = C.compose h g := ♯
-@[simp] lemma right_factorisation_associated_2 { C : Category } [ has_BinaryProducts C ] { W X Y Z : C.Obj } 
-  ( h : C.Hom Y W ) ( f : C.Hom Z X ) ( g : C.Hom Z Y ) : C.compose ((binary_product X Y).map f g) (C.compose (binary_product X Y).right_projection h) = C.compose g h := ♯
+@[reducible,applicable] definition left_associated_triple_Product_projection_1 : (binary_product (binary_product X Y).product Z).product ⟶ X :=
+  (BinaryProduct.left_projection _) ≫ (BinaryProduct.left_projection _)
+@[reducible,applicable] definition left_associated_triple_Product_projection_2 : (binary_product (binary_product X Y).product Z).product ⟶ Y :=
+  (BinaryProduct.left_projection _) ≫ (BinaryProduct.right_projection _)
+@[reducible,applicable] definition right_associated_triple_Product_projection_2 : (binary_product X (binary_product Y Z).product).product ⟶ Y :=
+  (BinaryProduct.right_projection _) ≫ (BinaryProduct.left_projection _)
+@[reducible,applicable] definition right_associated_triple_Product_projection_3 : (binary_product X (binary_product Y Z).product).product ⟶ Z :=
+  (BinaryProduct.right_projection _) ≫ (BinaryProduct.right_projection _)
 
-definition TensorProduct_from_Products ( C : Category ) [ has_BinaryProducts C ] : TensorProduct C := {
-    onObjects     := λ p, (binary_product p.1 p.2).product,
-    onMorphisms   := λ X Y f, ((binary_product Y.1 Y.2).map
-                                (C.compose (binary_product X.1 X.2).left_projection (f.1))
-                                (C.compose (binary_product X.1 X.2).right_projection (f.2))
-                              )
-}
+@[simp] lemma left_factorisation_associated_1 (h : W ⟶ Z) (f : Z ⟶ X ) (g : Z ⟶ Y) : (h ≫ ((binary_product X Y).map f g)) ≫ (binary_product X Y).left_projection = h ≫ f := by obviously
+@[simp] lemma left_factorisation_associated_2 (h : X ⟶ W) (f : Z ⟶ X ) (g : Z ⟶ Y) : ((binary_product X Y).map f g) ≫ ((binary_product X Y).left_projection ≫ h) = f ≫ h := by obviously
+@[simp] lemma right_factorisation_associated_1 (h : W ⟶ Z) (f : Z ⟶ X ) (g : Z ⟶ Y) : (h ≫ ((binary_product X Y).map f g)) ≫ (binary_product X Y).right_projection = h ≫ g := by obviously
+@[simp] lemma right_factorisation_associated_2 (h : Y ⟶ W) (f : Z ⟶ X ) (g : Z ⟶ Y) : ((binary_product X Y).map f g) ≫ ((binary_product X Y).right_projection ≫ h) = g ≫ h := by obviously
 
-local attribute [simp] Category.associativity
+definition TensorProduct_from_Products (C : Type (u+1)) [category C] [has_BinaryProducts C] : TensorProduct C := 
+{ onObjects     := λ p, (binary_product p.1 p.2).product,
+  onMorphisms   := λ X Y f, ((binary_product Y.1 Y.2).map
+                                ((binary_product X.1 X.2).left_projection ≫ (f.1))
+                                ((binary_product X.1 X.2).right_projection ≫ (f.2))) }
 
-definition Associator_for_Products ( C : Category ) [ has_BinaryProducts C ] : Associator (TensorProduct_from_Products C) := 
+local attribute [simp] category.associativity
+
+definition Associator_for_Products : Associator (TensorProduct_from_Products C) := 
 begin
   tidy { hints := [9, 8, 9, 8, 7, 6, 6, 6, 6, 6, 9, 7, 6, 10, 6, 10, 10, 9, 8, 7, 6, 6, 6, 6, 6, 9, 7, 6, 6, 10, 10, 10, 6, 7, 6, 6, 9, 10, 9, 10, 9, 10, 6, 7, 6, 9, 10, 6, 9, 10, 9, 10] }
 end
 
-definition LeftUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : LeftUnitor terminal_object (TensorProduct_from_Products C) := 
+definition LeftUnitor_for_Products [has_TerminalObject C] : LeftUnitor terminal_object (TensorProduct_from_Products C) := 
 begin
   tidy { hints := [8, 8, 7, 6, 9, 7, 10, 8, 7, 6, 6, 9, 19, 20, 19, 19, 22, 20, 19, 19, 23, 10, 10] }
 end
 
-definition RightUnitor_for_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : RightUnitor terminal_object (TensorProduct_from_Products C) := 
+definition RightUnitor_for_Products [has_TerminalObject C] : RightUnitor terminal_object (TensorProduct_from_Products C) := 
 begin
   tidy { hints := [8, 8, 7, 6, 9, 7, 10, 8, 7, 6, 9, 19, 20, 19, 19, 22, 20, 19, 19, 23, 10, 10] }
 end
 
-definition MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : MonoidalStructure C :=
+instance MonoidalStructure_from_Products (C : Type (u+1)) [category C] [has_TerminalObject C] [has_BinaryProducts C] : monoidal_category C :=
 {
     tensor := TensorProduct_from_Products C,
     tensor_unit := terminal_object,
@@ -71,7 +68,7 @@ definition MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject
 
 open categories.braided_monoidal_category
 
-definition Symmetry_on_MonoidalStructure_from_Products ( C : Category ) [ has_TerminalObject C ] [ has_BinaryProducts C ] : Symmetry (MonoidalStructure_from_Products C) := 
+definition Symmetry_on_MonoidalStructure_from_Products (C : Type (u+1)) [category C] [has_TerminalObject C] [has_BinaryProducts C] : Symmetry (MonoidalStructure_from_Products C) := 
 begin
   tidy { hints := [8, 8, 9, 8, 9, 8, 7, 6, 6, 6, 9, 7, 6, 10, 10, 9, 8, 7, 6, 6, 6, 9, 7, 6, 10, 10, 6, 7, 6, 9, 10, 9, 10, 6, 7, 6, 9, 10, 9, 10, 9, 7, 6, 6, 10, 10, 10, 9, 7, 6, 6, 10, 10, 10, 7, 6, 9, 10, 9, 10] }
 end

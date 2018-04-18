@@ -45,7 +45,7 @@ attribute [simp,ematch] HalfBraidingMorphism.witness_lemma
 instance DrinfeldCentre : category (HalfBraiding C) := {
   Hom      := λ X Y, HalfBraidingMorphism X Y,
   identity := λ X, { morphism := 𝟙 (X.object) },
-  compose  := λ P Q R f g, { morphism := f.morphism ≫ g.morphism }
+  compose  := λ _ _ _ f g, { morphism := f.morphism ≫ g.morphism }
 }
 
 end categories.drinfeld_centre

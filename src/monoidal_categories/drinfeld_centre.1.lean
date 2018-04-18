@@ -11,44 +11,43 @@ open categories.monoidal_category
 
 namespace categories.drinfeld_centre
 
-local attribute [ematch] MonoidalStructure.interchange_right_identity  MonoidalStructure.interchange_left_identity
+universe u
 
-definition DrinfeldCentreTensorUnit { C : Category } ( m : MonoidalStructure C ) : (DrinfeldCentre m).Obj := {
+variables {C : Type (u+1)} [category C] [m : monoidal_category C]
+include m
+
+definition DrinfeldCentreTensorUnit : HalfBraiding C := {
     object := m.tensor_unit,
     commutor := vertical_composition_of_NaturalIsomorphisms m.left_unitor_transformation m.right_unitor_transformation.reverse
   }
 
--- definition DrinfeldCentreTensorProduct { C : Category } ( m : MonoidalStructure C ) : TensorProduct (DrinfeldCentre m) := {
---     onObjects   := λ p, {
---       object   := m (p.1.object, p.2.object),
---       commutor := {
---         morphism := {
---           components := λ X,
---             C.compose (C.compose (C.compose (C.compose (
---               m.associator p.1.object p.2.object X
---             ) (
---               m.tensorMorphisms (C.identity p.1.object) (p.2.commutor.morphism.components X)
---             )) (
---               m.inverse_associator p.1.object X p.2.object
---             )) (
---               m.tensorMorphisms (p.1.commutor.morphism.components X) (C.identity p.2.object)
---             )) (
---               m.associator X p.1.object p.2.object
---             ),
---           naturality := sorry
---         },
---         inverse := {
---           components := sorry,
---           naturality := sorry
---         },
---         witness_1 := sorry,
---         witness_2 := sorry
---       }
---     },
---     onMorphisms := sorry,
---     identities := sorry,
---     functoriality := sorry
---   }
+open categories.monoidal_category.monoidal_category
+
+definition DrinfeldCentreTensorProduct : TensorProduct (HalfBraiding C) := {
+    onObjects   := λ p, {
+      object   := p.1.object ⊗ p.2.object,
+      commutor := {
+        morphism := {
+          components := λ X,
+              associator p.1.object p.2.object X
+              ≫ ((𝟙 p.1.object) ⊗ (p.2.commutor.morphism.components X))
+              ≫ inverse_associator p.1.object X p.2.object
+              ≫ ((p.1.commutor.morphism.components X) ⊗ (𝟙 p.2.object))
+              ≫ associator X p.1.object p.2.object,
+          naturality := begin obviously, end -- This is silly; we need nice notation that lets us write the commutor in components, but remembers that it is natural because it's built from natural things.
+        },
+        inverse := {
+          components := sorry,
+          naturality := sorry
+        },
+        witness_1 := sorry,
+        witness_2 := sorry
+      }
+    },
+    onMorphisms := sorry,
+    identities := sorry,
+    functoriality := sorry
+  }
 
 -- definition DrinfeldCentreAssociator { C : Category } ( m : MonoidalStructure C ) : Associator (DrinfeldCentreTensorProduct m) := {
 --     components := sorry, --λ t, ⟨ m.associator_transformation ((t.1.1.object, t.1.2.object), t.2.object), sorry ⟩,
