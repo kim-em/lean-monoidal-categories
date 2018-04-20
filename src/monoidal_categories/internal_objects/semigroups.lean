@@ -8,14 +8,14 @@ open categories.monoidal_category
 
 namespace categories.internal_objects
 
-structure SemigroupObject { C : Category } ( m : MonoidalStructure C ) :=
-  ( object         : C.Obj )
-  ( multiplication : C.Hom (m (object, object)) object)
-  ( associativity  : C.compose (m.tensorMorphisms multiplication (C.identity object)) multiplication = C.compose (m.associator object object object) (C.compose (m.tensorMorphisms (C.identity object) multiplication) multiplication) )
+universe u
+
+class SemigroupObject {C : Type (u+1)} [category C] [monoidal_category C] (A : C) :=
+  (μ : A ⊗ A ⟶ A)
+  (associativity : (μ ⊗ (𝟙 A)) ≫ μ = (associator A A A) ≫ ((𝟙 A) ⊗ μ) ≫ μ)
+
+def μ {C : Type (u+1)} [category C] [monoidal_category C] (A : C) [s : SemigroupObject A] : A ⊗ A ⟶ A := s.μ
 
 attribute [ematch] SemigroupObject.associativity
-
-instance SemigroupObject_coercion_to_object { C : Category } { m : MonoidalStructure C } : has_coe (SemigroupObject m) (C.Obj) :=
-  { coe := SemigroupObject.object }
 
 end categories.internal_objects

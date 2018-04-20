@@ -8,10 +8,14 @@ open categories.monoidal_category
 
 namespace categories.internal_objects
 
-structure MonoidObject { C : Category } ( m : MonoidalStructure C ) extends SemigroupObject m := 
-  ( unit : C.Hom m.tensor_unit object )
-  ( left_identity  : C.compose (m.tensorMorphisms unit (C.identity object)) multiplication = C.compose (m.left_unitor object) (C.identity object) )
-  ( right_identity : C.compose (m.tensorMorphisms (C.identity object) unit) multiplication = C.compose (m.right_unitor object) (C.identity object) )
+universe u
+
+class MonoidObject  {C : Type (u+1)} [category C] [m : monoidal_category C] (A : C) extends SemigroupObject A := 
+  ( unit : m.tensor_unit ⟶ A )
+  ( left_identity  : (unit ⊗ (𝟙 A)) ≫ (SemigroupObject.μ A) = (left_unitor A) ≫ (𝟙 A) )
+  ( right_identity : ((𝟙 A) ⊗ unit) ≫ (SemigroupObject.μ A) = (right_unitor A) ≫ (𝟙 A) )
+
+def ι {C : Type (u+1)} [category C] [m : monoidal_category C] (A : C) [s : MonoidObject A] : m.tensor_unit ⟶ A := s.unit
 
 attribute [simp,ematch] MonoidObject.left_identity
 attribute [simp,ematch] MonoidObject.right_identity

@@ -29,7 +29,7 @@ make_lemma monoidal_category.triangle
 attribute [ematch] monoidal_category.pentagon_lemma
 attribute [simp,ematch] monoidal_category.triangle_lemma
 
-namespace monoidal_category
+open  monoidal_category
 
 variable [m : monoidal_category C]
 include m
@@ -81,7 +81,7 @@ lemma inverse_associator_naturality_0
     apply @NaturalTransformation.naturality _ _ _ _ _ _ ((m.associator_transformation).inverse) ((U, W), Y) ((V, X), Z) ((f, g), h)
   end
 
-end monoidal_category
+-- end monoidal_category
 
 -- structure {u v} MonoidalCategory extends C : Category.{u v} :=
 --   ( m : MonoidalStructure C )

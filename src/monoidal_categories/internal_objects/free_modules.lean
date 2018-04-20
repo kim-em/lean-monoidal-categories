@@ -17,44 +17,55 @@ namespace categories.internal_objects
 -- set_option pp.implicit false
 
 -- local attribute [elab_simple] prod.mk
+universe u
 
--- definition CategoryOfFreeModules { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) : Category :=
--- {
---   Obj := C.Obj,
---   Hom := λ X Y, C.Hom X (m.tensorObjects A.object Y),
---   identity := λ X, C.compose (m.left_unitor.inverse.components X) (m.tensorMorphisms A.unit (C.identity X)),
---   compose := λ _ _ Z f g, C.compose (C.compose (C.compose f (m.tensorMorphisms (C.identity A.object) g)) (m.inverse_associator A.object A.object Z)) (m.tensorMorphisms A.multiplication (C.identity Z)),
---   left_identity := begin
---                     -- PROJECT dealing with associativity here is quite tedious.
---                     -- PROJECT this is a great example problem for clever automation.
---                     -- A human quickly sees that we need to combine A.unit and A.multiplication to make them cancel,
---                     -- and then performs the necessary rewrites to get there.
---                     intros,
---                     dsimp,
---                     rewrite C.associativity,
---                     rewrite C.associativity,
---                     rewrite C.associativity,
---                     erewrite ← C.associativity (m.tensorMorphisms A.unit (C.identity X)),
---                     rewrite ← m.interchange_identities,
---                     rewrite C.associativity,
---                     rewrite ← C.associativity (m.tensorMorphisms A.unit (C.identity (m.tensorObjects A.object Y))),
---                     rewrite ← m.tensor.identities,
---                     erewrite m.inverse_associator_naturality_0 A.unit (C.identity A.object) (C.identity Y),
---                     erewrite C.associativity,
---                     erewrite ← m.interchange,
---                     rewrite A.left_identity, -- <<--- here is the only interesting step!
---                     simp, dsimp,
---                     erewrite C.right_identity,
---                     erewrite ← C.associativity,
---                     erewrite ← m.left_unitor.inverse.naturality,
---                     dunfold IdentityFunctor, dsimp,
---                     erewrite C.associativity,
---                     -- PROJECT this needs Proposition 2.2.4 of Etingof's "Tensor Categories" to finish; and that seems awkward to prove in our setup!
---                     exact sorry
---                    end,
---   right_identity := sorry,
---   associativity := sorry
--- }
+variables {C : Type (u+1)} [category C] [m : monoidal_category C]
+include m
+
+def fmod (A : C) [MonoidObject A] := C
+
+definition CategoryOfFreeModules (A : C) [MonoidObject A]  : category (fmod A) :=
+{ Hom := λ X Y : C, X ⟶ (A ⊗ Y),
+  identity := λ X : C, (inverse_left_unitor X) ≫ ((ι A) ⊗ (𝟙 X)),
+  compose := λ _ _ Z f g, f ≫ ((𝟙 A) ⊗ g) ≫ (inverse_associator A A Z) ≫ (μ A ⊗ (𝟙 Z)),
+  left_identity := begin
+                    -- PROJECT dealing with associativity here is quite tedious.
+                    -- PROJECT this is a great example problem for clever automation.
+                    -- A human quickly sees that we need to combine A.unit and A.multiplication to make them cancel,
+                    -- and then performs the necessary rewrites to get there.
+                    intros,
+                    conv {
+                      to_lhs,                      
+                      rewrite category.associativity,
+                      congr, skip,
+                      rewrite ← category.associativity,
+                      rewrite ← interchange_identities,
+                      rewrite category.associativity,
+                      congr, skip,
+                      rewrite ← category.associativity,
+                      rewrite ← tensor_identities,
+                      rewrite inverse_associator_naturality_0,
+                      rewrite category.associativity,
+                      congr, skip,
+                      rewrite interchange_left_identity,
+                      congr,
+                      rewrite [MonoidObject.left_identity] {tactic.rewrite_cfg . md := semireducible},
+                    },
+                    simp,
+                    conv {
+                      to_lhs,
+                      rewrite ← category.associativity,
+                      congr,
+                      rewrite [← m.left_unitor_transformation.inverse.naturality] {tactic.rewrite_cfg . md := semireducible},                    
+                    },
+                    simp,
+                    dunfold IdentityFunctor, dsimp,
+                    -- PROJECT this needs Proposition 2.2.4 of Etingof's "Tensor Categories" to finish; and that seems awkward to prove in our setup!
+                    exact sorry
+                   end,
+  right_identity := sorry,
+  associativity := sorry
+}
 
 -- PROJECT show that after idempotent completing the category of free modules we get the category of modules??
 -- PROJECT bimodules
