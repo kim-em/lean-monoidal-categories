@@ -14,13 +14,14 @@ namespace categories.monoidal_category
 universe variables u v
 
 -- TODO can we avoid these @[reducible]s?
-@[reducible] definition TensorProduct (C : Type (u+1)) [category C] := Functor ( C × C ) C
+@[reducible] definition TensorProduct (C : Type u) [category.{u v} C] := (C × C) ↝ C
 
-variables {C : Type (u+1)} [category C]
+variables {C : Type u} [𝒞 : category.{u v} C]
+include 𝒞 
 
-definition left_associated_triple_tensor ( tensor : TensorProduct C ) : Functor ((C × C) × C) C :=
-  FunctorComposition (tensor × IdentityFunctor C) tensor
-definition right_associated_triple_tensor ( tensor : TensorProduct C ) : Functor (C × (C × C)) C :=
+definition left_associated_triple_tensor (tensor : TensorProduct C) : ((C × C) × C) ↝ C :=
+  (tensor × (IdentityFunctor C)) ⋙ tensor
+definition right_associated_triple_tensor (tensor : TensorProduct C) : (C × (C × C)) ↝ C :=
   FunctorComposition (IdentityFunctor C × tensor) tensor
 
 @[reducible] definition Associator ( tensor : TensorProduct C ) :=
