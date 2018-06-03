@@ -13,9 +13,14 @@ namespace categories.monoidal_category
 
 universe variables u v
 
-lemma pentagon_in_terms_of_natural_transformations
-   { C : Category.{u v} } ( m : MonoidalStructure C ) :
-  pentagon_3step m = pentagon_2step m :=
+variables (C : Type u) [𝒞 : monoidal_category.{u v} C]
+include 𝒞
+
+local attribute [tidy] dsimp_all'
+
+-- TODO tidy this up
+lemma pentagon_in_terms_of_natural_transformations :
+  pentagon_3step C = pentagon_2step C :=
   begin 
     dsimp',
     apply NaturalTransformations_componentwise_equal,
@@ -25,8 +30,8 @@ lemma pentagon_in_terms_of_natural_transformations
     induction WX with W X,
     {
       tidy,
-      have p := m.pentagon W X Y Z,
-      tidy,
+      have p := monoidal_category.pentagon C W X Y Z,
+      obviously,
     },
 end
 

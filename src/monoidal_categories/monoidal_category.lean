@@ -22,16 +22,14 @@ class monoidal_category (C : Type u) extends category.{u v} C :=
   (pentagon                  : Pentagon associator_transformation . obviously)
   (triangle                  : Triangle left_unitor_transformation right_unitor_transformation associator_transformation . obviously)
 
-variables {C : Type u} --[category.{u v} C]
-
 make_lemma monoidal_category.pentagon
 make_lemma monoidal_category.triangle
 attribute [ematch] monoidal_category.pentagon_lemma
 attribute [simp,ematch] monoidal_category.triangle_lemma
 
-open  monoidal_category
+open monoidal_category
 
-variable [𝒞 : monoidal_category.{u v} C]
+variables {C : Type u} [𝒞 : monoidal_category.{u v} C]
 include 𝒞
 
 -- Convenience methods which take two arguments, rather than a pair. (This seems to often help the elaborator avoid getting stuck on `prod.mk`.)
@@ -58,6 +56,8 @@ infixr ` ⊗ `:80 := tensorMorphisms -- type as \otimes
   (associator_transformation C).inverse.components ⟨⟨X, Y⟩, Z⟩
 
 variables {U V W X Y Z : C}
+
+@[simp] lemma rewrite_tensor_as_otimes (f : W ⟶ X) (g : Y ⟶ Z) : (tensor C) &> ((f, g) : (W, Y) ⟶ (X, Z)) = f ⊗ g := by refl
 
 @[ematch] definition interchange (f : U ⟶ V) (g : V ⟶ W) (h : X ⟶ Y) (k : Y ⟶ Z) :
   (f ≫ g) ⊗ (h ≫ k) = (f ⊗ h) ≫ (g ⊗ k) :=

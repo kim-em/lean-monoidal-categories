@@ -39,17 +39,17 @@ include 𝒞
 
 -- TODO all the let statements cause problems later...
 @[reducible] definition Pentagon {tensor : TensorProduct C} (associator : Associator tensor) :=
-  let α ( X Y Z : C ) := associator.morphism.components ⟨⟨X, Y⟩, Z⟩,
-      tensorObjects ( X Y : C ) := tensor.onObjects ⟨X, Y⟩,
-      tensorMorphisms { W X Y Z : C } ( f : W ⟶ X ) ( g : Y ⟶ Z ) : (tensorObjects W Y) ⟶ (tensorObjects X Z) := tensor.onMorphisms ⟨f, g⟩ in
+  let α (X Y Z : C) := associator.morphism.components ⟨⟨X, Y⟩, Z⟩,
+      tensorObjects (X Y : C) := tensor.onObjects ⟨X, Y⟩,
+      tensorMorphisms {W X Y Z : C} (f : W ⟶ X) (g : Y ⟶ Z) : (tensorObjects W Y) ⟶ (tensorObjects X Z) := tensor.onMorphisms ⟨f, g⟩ in
   ∀ W X Y Z : C,
     (tensorMorphisms (α W X Y) (𝟙 Z)) ≫ (α W (tensorObjects X Y) Z) ≫ (tensorMorphisms (𝟙 W) (α X Y Z))
   = (α (tensorObjects W X) Y Z) ≫ (α W X (tensorObjects Y Z)) 
 
 @[reducible] definition Triangle {tensor : TensorProduct C} {I : C} (left_unitor : LeftUnitor I tensor) (right_unitor : RightUnitor I tensor) (associator : Associator tensor) :=
-  let α ( X Y Z : C ) := associator.morphism.components ⟨⟨X, Y⟩, Z⟩,
-      tensorObjects ( X Y : C ) := tensor.onObjects ⟨X, Y⟩,
-      tensorMorphisms { W X Y Z : C } ( f : W ⟶ X ) ( g : Y ⟶ Z ) : (tensorObjects W Y) ⟶ (tensorObjects X Z) := tensor.onMorphisms ⟨f, g⟩ in
+  let α (X Y Z : C) := associator.morphism.components ⟨⟨X, Y⟩, Z⟩,
+      tensorObjects (X Y : C) := tensor.onObjects ⟨X, Y⟩,
+      tensorMorphisms {W X Y Z : C} (f : W ⟶ X) (g : Y ⟶ Z) : (tensorObjects W Y) ⟶ (tensorObjects X Z) := tensor.onMorphisms ⟨f, g⟩ in
   ∀ X Y : C,
     (α X I Y) ≫ (tensorMorphisms (𝟙 X) (left_unitor.morphism.components Y))
   = tensorMorphisms (right_unitor.morphism.components X) (𝟙 Y)
