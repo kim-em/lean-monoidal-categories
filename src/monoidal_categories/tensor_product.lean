@@ -19,28 +19,26 @@ universe variables u v
 variables {C : Type u} [𝒞 : category.{u v} C]
 include 𝒞 
 
-definition left_associated_triple_tensor (tensor : TensorProduct C) : ((C × C) × C) ↝ C :=
+definition left_associated_triple_tensor  (tensor : TensorProduct C) : ((C × C) × C) ↝ C :=
   (tensor × (IdentityFunctor C)) ⋙ tensor
 definition right_associated_triple_tensor (tensor : TensorProduct C) : (C × (C × C)) ↝ C :=
-  FunctorComposition (IdentityFunctor C × tensor) tensor
+  (IdentityFunctor C × tensor) ⋙ tensor
 
-@[reducible] definition Associator ( tensor : TensorProduct C ) :=
+@[reducible] definition Associator (tensor : TensorProduct C) :=
   NaturalIsomorphism
     (left_associated_triple_tensor tensor)
     (FunctorComposition (ProductCategoryAssociator C C C) (right_associated_triple_tensor tensor))
 
-@[reducible] definition RightUnitor ( I : C ) ( tensor : TensorProduct C ) :=
-  NaturalIsomorphism
-    (FunctorComposition (RightInjectionAt I) tensor)
+@[reducible] definition RightUnitor (I : C) (tensor : TensorProduct C) :=
+    ((RightInjectionAt C I) ⋙ tensor) ⇔
     (IdentityFunctor C)
 
-@[reducible] definition LeftUnitor ( I : C ) ( tensor : TensorProduct C ) :=
-  NaturalIsomorphism
-    (FunctorComposition (LeftInjectionAt I) tensor)
+@[reducible] definition LeftUnitor (I : C) (tensor : TensorProduct C) :=
+    ((LeftInjectionAt I C) ⋙ tensor) ⇔
     (IdentityFunctor C)
 
 -- TODO all the let statements cause problems later...
-@[reducible] definition Pentagon { tensor : TensorProduct C } ( associator : Associator tensor ) :=
+@[reducible] definition Pentagon {tensor : TensorProduct C} (associator : Associator tensor) :=
   let α ( X Y Z : C ) := associator.morphism.components ⟨⟨X, Y⟩, Z⟩,
       tensorObjects ( X Y : C ) := tensor.onObjects ⟨X, Y⟩,
       tensorMorphisms { W X Y Z : C } ( f : W ⟶ X ) ( g : Y ⟶ Z ) : (tensorObjects W Y) ⟶ (tensorObjects X Z) := tensor.onMorphisms ⟨f, g⟩ in
@@ -48,7 +46,7 @@ definition right_associated_triple_tensor (tensor : TensorProduct C) : (C × (C 
     (tensorMorphisms (α W X Y) (𝟙 Z)) ≫ (α W (tensorObjects X Y) Z) ≫ (tensorMorphisms (𝟙 W) (α X Y Z))
   = (α (tensorObjects W X) Y Z) ≫ (α W X (tensorObjects Y Z)) 
 
-@[reducible] definition Triangle { tensor : TensorProduct C } ( I : C ) ( left_unitor : LeftUnitor I tensor ) ( right_unitor : RightUnitor I tensor ) ( associator : Associator tensor ) :=
+@[reducible] definition Triangle {tensor : TensorProduct C} {I : C} (left_unitor : LeftUnitor I tensor) (right_unitor : RightUnitor I tensor) (associator : Associator tensor) :=
   let α ( X Y Z : C ) := associator.morphism.components ⟨⟨X, Y⟩, Z⟩,
       tensorObjects ( X Y : C ) := tensor.onObjects ⟨X, Y⟩,
       tensorMorphisms { W X Y Z : C } ( f : W ⟶ X ) ( g : Y ⟶ Z ) : (tensorObjects W Y) ⟶ (tensorObjects X Z) := tensor.onMorphisms ⟨f, g⟩ in

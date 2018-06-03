@@ -10,16 +10,17 @@ open categories.natural_transformation
 
 namespace categories.monoidal_category
 
-universe variables u
+universe variables u v
 
-variables {C : Type (u+1)} [category C] [monoidal_category C]
+variables {C : Type u} [𝒞 : monoidal_category.{u v} C]
+include 𝒞
 
 definition tensor_on_left (Z : C) : C ↝ C :=
 { onObjects := λ X, Z ⊗ X,
-  onMorphisms := λ X Y f, 1 ⊗ f }
+  onMorphisms := λ X Y f, (𝟙 Z) ⊗ f }
 
 definition tensor_on_right (Z : C) : C ↝ C :=
 { onObjects := λ X, X ⊗ Z,
-  onMorphisms := λ X Y f, f ⊗ 1 }
+  onMorphisms := λ X Y f, f ⊗ (𝟙 Z) }
 
 end categories.monoidal_category

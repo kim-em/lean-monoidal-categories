@@ -10,9 +10,9 @@ open categories.natural_transformation
 
 namespace categories.monoidal_category
 
-universe u
+universes u v
 
-class monoidal_category (C : Type (u+1)) [category C] :=
+class monoidal_category (C : Type u) extends category.{u v} C :=
   (tensor                      : TensorProduct C)
   (tensor_unit                 : C)
   (associator_transformation   : Associator tensor)
@@ -20,9 +20,9 @@ class monoidal_category (C : Type (u+1)) [category C] :=
   (right_unitor_transformation : RightUnitor tensor_unit tensor)
 
   (pentagon                  : Pentagon associator_transformation . obviously)
-  (triangle                  : Triangle tensor_unit left_unitor_transformation right_unitor_transformation associator_transformation . obviously)
+  (triangle                  : Triangle left_unitor_transformation right_unitor_transformation associator_transformation . obviously)
 
-variables {C : Type (u+1)} [category C]
+variables {C : Type u} --[category.{u v} C]
 
 make_lemma monoidal_category.pentagon
 make_lemma monoidal_category.triangle
@@ -31,35 +31,37 @@ attribute [simp,ematch] monoidal_category.triangle_lemma
 
 open  monoidal_category
 
-variable [m : monoidal_category C]
-include m
+variable [𝒞 : monoidal_category.{u v} C]
+include 𝒞
 
 -- Convenience methods which take two arguments, rather than a pair. (This seems to often help the elaborator avoid getting stuck on `prod.mk`.)
-definition tensorObjects (X Y : C) : C := tensor C ⟨X, Y⟩
-definition tensorMorphisms {W X Y Z : C} (f : W ⟶ X) (g : Y ⟶ Z) : (tensor C ⟨W, Y⟩) ⟶ (tensor C ⟨X, Z⟩) := m.tensor.onMorphisms ⟨f, g⟩
+definition tensorObjects (X Y : C) : C := (tensor C) +> (X, Y)
 
-infixr ` ⊗ `:80 := tensorObjects -- type as \gg
-infixr ` ⊗ `:80 := tensorMorphisms -- type as \gg
+infixr ` ⊗ `:80 := tensorObjects -- type as \otimes
 
-@[reducible] definition left_unitor (X : C) : (m.tensor_unit ⊗ X) ⟶ X := ((left_unitor_transformation C).components X).morphism
+definition tensorMorphisms {W X Y Z : C} (f : W ⟶ X) (g : Y ⟶ Z) : (W ⊗ Y) ⟶ (X ⊗ Z) := 𝒞.tensor &> ⟨f, g⟩
+
+infixr ` ⊗ `:80 := tensorMorphisms -- type as \otimes
+
+@[reducible] definition left_unitor (X : C) : (𝒞.tensor_unit ⊗ X) ⟶ X := ((left_unitor_transformation C).components X).morphism
   
-@[reducible] definition right_unitor (X : C) : (X ⊗ m.tensor_unit) ⟶ X := ((right_unitor_transformation C).components X).morphism
+@[reducible] definition right_unitor (X : C) : (X ⊗ 𝒞.tensor_unit) ⟶ X := ((right_unitor_transformation C).components X).morphism
 
-@[reducible] definition inverse_left_unitor (X : C) : X ⟶ (m.tensor_unit ⊗ X) := m.left_unitor_transformation.inverse.components X
+@[reducible] definition inverse_left_unitor (X : C) : X ⟶ (𝒞.tensor_unit ⊗ X) := 𝒞.left_unitor_transformation.inverse.components X
   
-@[reducible] definition inverse_right_unitor (X : C) : X ⟶ (X ⊗ m.tensor_unit) := m.right_unitor_transformation.inverse.components X
+@[reducible] definition inverse_right_unitor (X : C) : X ⟶ (X ⊗ 𝒞.tensor_unit) := 𝒞.right_unitor_transformation.inverse.components X
 
 @[reducible] definition associator (X Y Z : C) : ((X ⊗ Y) ⊗ Z) ⟶ (X ⊗ (Y ⊗ Z)) :=
   ((associator_transformation C).components ⟨⟨X, Y⟩, Z⟩).morphism
 
 @[reducible] definition inverse_associator (X Y Z : C) : (X ⊗ (Y ⊗ Z)) ⟶ ((X ⊗ Y) ⊗ Z) :=
-  m.associator_transformation.inverse.components ⟨⟨X, Y⟩, Z⟩
+  (associator_transformation C).inverse.components ⟨⟨X, Y⟩, Z⟩
 
 variables {U V W X Y Z : C}
 
 @[ematch] definition interchange (f : U ⟶ V) (g : V ⟶ W) (h : X ⟶ Y) (k : Y ⟶ Z) :
   (f ≫ g) ⊗ (h ≫ k) = (f ⊗ h) ≫ (g ⊗ k) :=
-  @Functor.functoriality (C × C) _ C _ m.tensor ⟨U, X⟩ ⟨V, Y⟩ ⟨W, Z⟩ ⟨f, h⟩ ⟨g, k⟩
+  @Functor.functoriality (C × C) _ C _ 𝒞.tensor ⟨U, X⟩ ⟨V, Y⟩ ⟨W, Z⟩ ⟨f, h⟩ ⟨g, k⟩
 
 @[simp,ematch] lemma interchange_left_identity (f : W ⟶ X) (g : X ⟶ Y) :
   (f ⊗ 𝟙 Z) ≫ (g ⊗ 𝟙 Z) = (f ≫ g) ⊗ (𝟙 Z)
@@ -73,22 +75,12 @@ variables {U V W X Y Z : C}
   ((𝟙 Y) ⊗ f) ≫ (g ⊗ (𝟙 X)) = (g ⊗ (𝟙 W)) ≫ ((𝟙 Z) ⊗ f) := by obviously
 
 @[simp,ematch] lemma tensor_identities (X Y : C) :
-   (𝟙 X) ⊗ (𝟙 Y) = 𝟙 (X ⊗ Y) := m.tensor.identities ⟨X, Y⟩
+   (𝟙 X) ⊗ (𝟙 Y) = 𝟙 (X ⊗ Y) := 𝒞.tensor.identities ⟨X, Y⟩
 
 lemma inverse_associator_naturality_0
   (f : U ⟶ V ) (g : W ⟶ X) (h : Y ⟶ Z) : (f ⊗ (g ⊗ h)) ≫ (inverse_associator V X Z) = (inverse_associator U  W Y) ≫ ((f ⊗ g) ⊗ h) :=
   begin
-    apply @NaturalTransformation.naturality _ _ _ _ _ _ ((m.associator_transformation).inverse) ((U, W), Y) ((V, X), Z) ((f, g), h)
+    apply @NaturalTransformation.naturality _ _ _ _ _ _ ((𝒞.associator_transformation).inverse) ((U, W), Y) ((V, X), Z) ((f, g), h)
   end
-
--- end monoidal_category
-
--- structure {u v} MonoidalCategory extends C : Category.{u v} :=
---   ( m : MonoidalStructure C )
-
--- definition {u v} MonoidalCategory_coercion_to_Category : has_coe MonoidalCategory.{u v} Category.{u v} :=
---   { coe := MonoidalCategory.C }
-
--- attribute [instance] MonoidalCategory_coercion_to_Category
 
 end categories.monoidal_category
