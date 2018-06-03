@@ -9,25 +9,20 @@ open categories.monoidal_category
 
 namespace categories.internal_objects
 
--- set_option pp.max_steps 50000
--- set_option pp.implicit true
--- set_option pp.universes true
--- set_option pp.coercions true
--- set_option pp.all true
--- set_option pp.implicit false
+universes u v
 
--- local attribute [elab_simple] prod.mk
-universe u
-
-variables {C : Type (u+1)} [category C] [m : monoidal_category C]
-include m
+variables {C : Type u} [𝒞 : monoidal_category.{u v} C]
+include 𝒞
 
 def fmod (A : C) [MonoidObject A] := C
 
-definition CategoryOfFreeModules (A : C) [MonoidObject A]  : category (fmod A) :=
+open SemigroupObject
+open MonoidObject
+
+definition CategoryOfFreeModules (A : C) [MonoidObject A] : category (fmod A) :=
 { Hom := λ X Y : C, X ⟶ (A ⊗ Y),
   identity := λ X : C, (inverse_left_unitor X) ≫ ((ι A) ⊗ (𝟙 X)),
-  compose := λ _ _ Z f g, f ≫ ((𝟙 A) ⊗ g) ≫ (inverse_associator A A Z) ≫ (μ A ⊗ (𝟙 Z)),
+  compose := λ _ _ Z f g, f ≫ ((𝟙 A) ⊗ g) ≫ (inverse_associator A A Z) ≫ ((μ A) ⊗ (𝟙 Z)),
   left_identity := begin
                     -- PROJECT dealing with associativity here is quite tedious.
                     -- PROJECT this is a great example problem for clever automation.
@@ -56,7 +51,7 @@ definition CategoryOfFreeModules (A : C) [MonoidObject A]  : category (fmod A) :
                       to_lhs,
                       rewrite ← category.associativity,
                       congr,
-                      rewrite [← m.left_unitor_transformation.inverse.naturality] {tactic.rewrite_cfg . md := semireducible},                    
+                      rewrite [← 𝒞.left_unitor_transformation.inverse.naturality] {tactic.rewrite_cfg . md := semireducible},                    
                     },
                     simp,
                     dunfold IdentityFunctor, dsimp,

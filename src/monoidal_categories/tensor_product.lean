@@ -19,9 +19,9 @@ universe variables u v
 variables {C : Type u} [𝒞 : category.{u v} C]
 include 𝒞 
 
-definition left_associated_triple_tensor  (tensor : TensorProduct C) : ((C × C) × C) ↝ C :=
+@[reducible] definition left_associated_triple_tensor  (tensor : TensorProduct C) : ((C × C) × C) ↝ C :=
   (tensor × (IdentityFunctor C)) ⋙ tensor
-definition right_associated_triple_tensor (tensor : TensorProduct C) : (C × (C × C)) ↝ C :=
+@[reducible] definition right_associated_triple_tensor (tensor : TensorProduct C) : (C × (C × C)) ↝ C :=
   (IdentityFunctor C × tensor) ⋙ tensor
 
 @[reducible] definition Associator (tensor : TensorProduct C) :=

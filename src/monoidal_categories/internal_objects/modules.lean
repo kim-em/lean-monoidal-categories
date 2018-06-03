@@ -9,18 +9,22 @@ open categories.monoidal_category
 
 namespace categories.internal_objects
 
-structure ModuleObject { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) extends SemigroupModuleObject A.to_SemigroupObject :=
-  ( identity  : C.compose (m.inverse_left_unitor module)  (C.compose (m.tensorMorphisms A.unit (C.identity module)) action) = C.identity module )
+universes u v
+
+open MonoidObject
+
+structure ModuleObject {C : Type u} [𝒞 : monoidal_category.{u v} C] (A : C) [MonoidObject A] extends SemigroupModuleObject A :=
+  (identity  : (inverse_left_unitor module) ≫ ((ι A) ⊗ (𝟙 module)) ≫ action = 𝟙 module)
 
 attribute [simp,ematch] ModuleObject.identity
 
-structure ModuleMorphism { C : Category } { m : MonoidalStructure C } { A : MonoidObject m } ( X Y : ModuleObject A )
+variables {C : Type u} [𝒞 : monoidal_category.{u v} C] {A : C} [MonoidObject A]
+include 𝒞
+
+structure ModuleMorphism ( X Y : ModuleObject A )
   extends SemigroupModuleMorphism X.to_SemigroupModuleObject Y.to_SemigroupModuleObject
 
 @[applicable] lemma ModuleMorphism_pointwise_equal
-  { C : Category }
-  { m : MonoidalStructure C }
-  { A : MonoidObject m }
   { X Y : ModuleObject A }
   ( f g : ModuleMorphism X Y )
   ( w : f.map = g.map ) : f = g :=
@@ -30,19 +34,9 @@ structure ModuleMorphism { C : Category } { m : MonoidalStructure C } { A : Mono
     tidy,
   end
 
-definition CategoryOfModules { C : Category } { m : MonoidalStructure C } ( A : MonoidObject m ) : Category :=
-{
-  Obj := ModuleObject A,
-  Hom := λ X Y, ModuleMorphism X Y,
-  identity := λ X, ⟨ ⟨ C.identity X.module, ♯ ⟩ ⟩, -- we need double ⟨ ⟨ ... ⟩ ⟩ because we're using structure extension
-  compose  := λ _ _ _ f g, ⟨ ⟨ C.compose f.map g.map, begin
-                                                     tidy,
-                                                     rewrite ← C.associativity,
-                                                     rewrite ← f.compatibility,
-                                                     rewrite C.associativity,
-                                                     rewrite ← g.compatibility,
-                                                     tidy,
-                                                    end ⟩ ⟩
-}
+definition CategoryOfModules : category.{(max u v) v} (ModuleObject A) :=
+{ Hom := λ X Y, ModuleMorphism X Y,
+  identity := λ X, ⟨ ⟨ 𝟙 X.module, by obviously ⟩ ⟩, -- we need double ⟨ ⟨ ... ⟩ ⟩ because we're using structure extension
+  compose  := λ _ _ _ f g, ⟨ ⟨ f.map ≫ g.map, by obviously ⟩ ⟩ }
 
 end categories.internal_objects

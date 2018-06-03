@@ -14,21 +14,23 @@ open categories.functor_categories
 
 namespace categories.braided_monoidal_category
 
-@[reducible] definition {u v} squared_Braiding { C : Category.{u v} } { m : MonoidalStructure C } ( commutor : Commutor m )
-  : NaturalTransformation m.tensor m.tensor :=
+@[reducible] definition {u v} squared_Braiding {C : Type u} [𝒞 : monoidal_category.{u v} C] (commutor : Commutor C)
+  : NaturalTransformation 𝒞.tensor 𝒞.tensor :=
   begin
    exact (commutor.morphism
-           ∘̬ (whisker_on_left (SwitchProductCategory C C) commutor.morphism)
-           ∘̬ (FunctorComposition_associator _ _ _).inverse
-           ∘̬ (whisker_on_right (SwitchSymmetry _ _).morphism m.tensor)
-           ∘̬ (FunctorComposition_left_unitor m.tensor).morphism)
+           ⊟ (whisker_on_left (SwitchProductCategory C C) commutor.morphism)
+           ⊟ (FunctorComposition_associator _ _ _).inverse
+           ⊟ (whisker_on_right (SwitchSymmetry _ _).morphism 𝒞.tensor)
+           ⊟ (FunctorComposition_left_unitor 𝒞.tensor).morphism)
   end 
 
-lemma {u v} symmetry_in_terms_of_natural_transformations { C : Category.{u v} } { m : MonoidalStructure C } ( β : Symmetry m ) : squared_Braiding (β.braiding) = IdentityNaturalTransformation m.tensor := ♯
+lemma {u v} symmetry_in_terms_of_natural_transformations {C : Type u} [𝒞 : monoidal_category.{u v} C] (β : Symmetry C) : squared_Braiding (β.braiding) = IdentityNaturalTransformation 𝒞.tensor := by obviously
 
-lemma {u v} symmetric_in_terms_of_components { C : Category.{u v} } { m : MonoidalStructure C } ( β : Braiding m ) ( e : squared_Braiding (β.braiding) = IdentityNaturalTransformation m.tensor ) : Symmetry m := {
-  β with 
-    symmetry := λ X Y : C.Obj, by its congr_fun (congr_arg NaturalTransformation.components e) (X, Y),                               
-}
+lemma {u v} symmetric_in_terms_of_components {C : Type u} [𝒞 : monoidal_category.{u v} C] (β : Braiding C) (e : squared_Braiding (β.braiding) = IdentityNaturalTransformation 𝒞.tensor) : Symmetry C :=
+{ β with 
+    symmetry := λ X Y : C, begin
+                             its congr_fun (congr_arg NaturalTransformation.components e) (X, Y),
+                             obviously
+                           end }
 
 end categories.braided_monoidal_category

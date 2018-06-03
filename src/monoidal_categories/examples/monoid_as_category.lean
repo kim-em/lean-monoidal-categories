@@ -9,37 +9,28 @@ open categories.monoidal_category
 
 namespace categories.examples
 
--- PROJECT none of these proofs work, because we're not using type classes, because type classes don't resolve correctly here.
+universe u
 
--- definition monoid_as_Category { α : Type } ( m : monoid α ) : Category :=
--- {
---     Obj      := unit,
---     Hom      := λ _ _, α,
---     compose  := λ _ _ _ f g, @monoid.mul α m f g,
---     identity := λ _, one,
---     left_identity  := sorry,
---     right_identity := sorry,
---     associativity  := sorry
--- }
+local attribute [ematch] semigroup.mul_assoc
 
--- definition comm_monoid_as_MonoidalCategory { α : Type } ( m : comm_monoid α ) : MonoidalStructure (monoid_as_Category (@comm_monoid.to_monoid α m)) :=
--- {
---   tensor := {
---     onObjects     := λ _, unit.star,
---     onMorphisms   := λ _ _ p, @comm_monoid.mul α m p.1 p.2,
---     identities    := sorry,
---     functoriality := sorry   
---   },
---   tensor_unit := unit.star,
---   associator_transformation := sorry,
---   left_unitor               := sorry,
---   right_unitor              := sorry,
---   pentagon := sorry,
---   triangle := sorry
--- }
+definition turtle (α : Type u) : Type u := punit.{u+1}
 
--- structure CategoryWithOneObject extends Category :=
---   ( object  : Obj )
---   ( witness : ∀ X : Obj, X = object )
+instance monoid_as_category (α : Type u) [monoid α] : category.{u u} (turtle α) :=
+{ Hom      := λ _ _, α,
+  compose  := λ _ _ _ f g, f * g,
+  identity := λ _, 1 }
+
+local attribute [applicable] has_one.one
+
+definition comm_monoid_as_monoidal_category (α : Type) [comm_monoid α] : monoidal_category (turtle α) :=
+{ (examples.monoid_as_category α) with 
+  tensor := 
+    { onObjects     := λ _, punit.star,
+      onMorphisms   := λ _ _ p, p.1 * p.2 },
+  tensor_unit := punit.star,
+  -- TODO: ugh, it sucks that by obviously is so much slower in the following:
+  associator_transformation   := { morphism := { components := by obviously, naturality := by obviously }, inverse := { components := by obviously, naturality := by obviously }, witness_1 := by obviously, witness_2 := by obviously },
+  left_unitor_transformation  := { morphism := { components := by obviously, naturality := by obviously }, inverse := { components := by obviously, naturality := by obviously }, witness_1 := by obviously, witness_2 := by obviously },
+  right_unitor_transformation := { morphism := { components := by obviously, naturality := by obviously }, inverse := { components := by obviously, naturality := by obviously }, witness_1 := by obviously, witness_2 := by obviously }, }
 
 end categories.examples

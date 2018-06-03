@@ -12,11 +12,14 @@ namespace categories.monoidal_category
 
 universe variables u v
 
-@[reducible] definition pentagon_3step_1 { C : Category.{u v} } ( m : MonoidalStructure C ) :=
-  let α := m.associator_transformation in
+variables (C : Type u) [𝒞 : monoidal_category.{u v} C]
+include 𝒞
+
+@[reducible] definition pentagon_3step_1 :=
+  let α := 𝒞.associator_transformation in
   whisker_on_right
     (α.morphism × IdentityNaturalTransformation (IdentityFunctor C))
-    m.tensor
+    𝒞.tensor
 
 @[reducible] definition pentagon_3step_2 { C : Category.{u v} } ( m : MonoidalStructure C ) :=
   let α := m.associator_transformation in

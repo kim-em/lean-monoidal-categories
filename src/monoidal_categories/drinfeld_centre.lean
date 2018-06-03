@@ -12,20 +12,15 @@ open categories.monoidal_category
 
 namespace categories.drinfeld_centre
 
-universe u
+universes u v
 
-structure HalfBraiding (C : Type (u+1)) [category C] [monoidal_category C]:=
+structure HalfBraiding (C : Type u) [monoidal_category.{u v} C] : Type (max u v) :=
     (object   : C)
     (commutor : (tensor_on_left object) ⇔ (tensor_on_right object))
 
--- definition {u v} HalfBraiding_coercion_to_object { C : Category.{u v} } ( m : MonoidalStructure C ) : has_coe (HalfBraiding m) (C.Obj) :=
---   { coe := HalfBraiding.object }
+variables {C : Type u} [monoidal_category.{u v} C]
 
--- attribute [instance] HalfBraiding_coercion_to_object
-
-variables {C : Type (u+1)} [category C] [monoidal_category C]
-
-structure HalfBraidingMorphism (X Y : HalfBraiding C) :=
+structure HalfBraidingMorphism (X Y : HalfBraiding C) : Type v :=
   (morphism : X.object ⟶ Y.object)
   (witness : ∀ Z : C, (X.commutor.morphism.components Z) ≫ ((𝟙 Z) ⊗ morphism) = (morphism ⊗ (𝟙 Z)) ≫ (Y.commutor.morphism.components Z) . obviously)
 
@@ -33,7 +28,7 @@ make_lemma HalfBraidingMorphism.witness
 attribute [simp,ematch] HalfBraidingMorphism.witness_lemma
 
 @[applicable] lemma HalfBraidingMorphism_equal
-  { X Y : HalfBraiding C }
+  { X Y : HalfBraiding.{u v} C }
   { f g : HalfBraidingMorphism X Y }
   ( w : f.morphism = g.morphism ) : f = g :=
   begin
@@ -42,10 +37,9 @@ attribute [simp,ematch] HalfBraidingMorphism.witness_lemma
     tidy,
   end
 
-instance DrinfeldCentre : category (HalfBraiding C) := {
-  Hom      := λ X Y, HalfBraidingMorphism X Y,
+instance DrinfeldCentre : category.{(max u v) v} (HalfBraiding C) := 
+{ Hom      := λ X Y, HalfBraidingMorphism X Y,
   identity := λ X, { morphism := 𝟙 (X.object) },
-  compose  := λ _ _ _ f g, { morphism := f.morphism ≫ g.morphism }
-}
+  compose  := λ _ _ _ f g, { morphism := f.morphism ≫ g.morphism } }
 
 end categories.drinfeld_centre

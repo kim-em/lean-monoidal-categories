@@ -20,10 +20,12 @@ universe variables u v
 -- https://groups.google.com/d/msg/lean-user/3qzchWkut0g/0QR6_cS8AgAJ
 -/
 
-@[reducible] definition Commutor (C : Type (u+1)) [category C] [m : monoidal_category C] := 
-  (m.tensor) ⇔ ((SwitchProductCategory C C) ⋙ m.tensor)
+@[reducible] definition Commutor (C : Type u) [𝒞 : monoidal_category.{u v} C] := 
+  (𝒞.tensor) ⇔ ((SwitchProductCategory C C) ⋙ 𝒞.tensor)
 
-variables {C : Type (u+1)} [category C] [monoidal_category C]
+section
+variables {C : Type u} [𝒞 : monoidal_category.{u v} C]
+include 𝒞
 
 @[reducible] definition Hexagon_1 (β : Commutor C) :=
   ∀ X Y Z : C,
@@ -42,8 +44,9 @@ variables {C : Type (u+1)} [category C] [monoidal_category C]
       (inverse_associator X Y Z) 
       ≫ (β.inverse.components (Z, X ⊗ Y))
       ≫ (inverse_associator Z X Y)
+end
 
-class Braiding (C : Type (u+1)) [category C] [monoidal_category C] :=
+class Braiding (C : Type u) [monoidal_category.{u v} C] :=
   ( braiding: Commutor C )
   ( hexagon_1 : Hexagon_1 braiding )
   ( hexagon_2 : Hexagon_2 braiding )
@@ -51,7 +54,7 @@ class Braiding (C : Type (u+1)) [category C] [monoidal_category C] :=
 attribute [ematch] Braiding.hexagon_1 Braiding.hexagon_2
 -- PROJECT a theorem showing the hexagons hold as natural transformations
 
-class Symmetry (C : Type (u+1)) [category C] [monoidal_category C] extends Braiding C :=
+class Symmetry (C : Type u) [monoidal_category.{u v} C] extends Braiding C :=
   (symmetry: Π X Y : C, (braiding.morphism.components ⟨X, Y⟩) ≫ (braiding.morphism.components ⟨Y, X⟩) = 𝟙 (X ⊗ Y) )
 
 attribute [simp,ematch] Symmetry.symmetry

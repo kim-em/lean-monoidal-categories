@@ -11,15 +11,14 @@ open categories.monoidal_category
 
 namespace categories.drinfeld_centre
 
-universe u
+universes u v
 
-variables {C : Type (u+1)} [category C] [m : monoidal_category C]
-include m
+variables {C : Type u} [𝒞 : monoidal_category.{u v} C]
+include 𝒞
 
-definition DrinfeldCentreTensorUnit : HalfBraiding C := {
-    object := m.tensor_unit,
-    commutor := vertical_composition_of_NaturalIsomorphisms m.left_unitor_transformation m.right_unitor_transformation.reverse
-  }
+definition DrinfeldCentreTensorUnit : HalfBraiding C := 
+{ object := 𝒞.tensor_unit,
+  commutor := vertical_composition_of_NaturalIsomorphisms 𝒞.left_unitor_transformation 𝒞.right_unitor_transformation.reverse }
 
 open categories.monoidal_category.monoidal_category
 

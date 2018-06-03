@@ -8,13 +8,11 @@ open categories.monoidal_category
 
 namespace categories.internal_objects
 
-universe u
+universes u v
 
-class SemigroupObject {C : Type (u+1)} [category C] [monoidal_category C] (A : C) :=
+class SemigroupObject {C : Type u} [monoidal_category.{u v} C] (A : C) :=
   (μ : A ⊗ A ⟶ A)
   (associativity : (μ ⊗ (𝟙 A)) ≫ μ = (associator A A A) ≫ ((𝟙 A) ⊗ μ) ≫ μ)
-
-def μ {C : Type (u+1)} [category C] [monoidal_category C] (A : C) [s : SemigroupObject A] : A ⊗ A ⟶ A := s.μ
 
 attribute [ematch] SemigroupObject.associativity
 

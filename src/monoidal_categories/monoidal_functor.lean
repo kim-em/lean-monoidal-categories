@@ -11,43 +11,36 @@ open categories.isomorphism
 
 namespace categories.monoidal_functor
 
-universe variables u1 v1 u2 v2 u3 v3
+universe variables u₁ v₁ u₂ v₂ u₃ v₃
 
--- structure MonoidalFunctor ( C : MonoidalCategory.{u1 v1} ) ( D : MonoidalCategory.{u2 v2} ) :=
---   ( functor : Functor.{u1 v1 u2 v2} C D )
---   ( tensorator : NaturalIsomorphism (FunctorComposition C.m.tensor functor) (FunctorComposition (functor × functor) D.m.tensor) )
---   ( associativity : ∀ X Y Z : C.Obj, 
---       D.compose (tensorator (C.m (X, Y), Z)) (D.compose (D.m.tensorMorphisms (tensorator (X, Y)) (D.identity (functor Z))) (D.m.associator (functor X) (functor Y) (functor Z)))
---       = D.compose (functor.onMorphisms (C.m.associator X Y Z)) (D.compose (tensorator (X, C.m (Y, Z))) (D.m.tensorMorphisms (D.identity (functor X)) (tensorator (Y, Z))))
---   )
---   ( identerator : Isomorphism.{u2 v2} D (functor C.m.tensor_unit) D.m.tensor_unit)
---   ( left_identity  : ∀ X : C.Obj, D.compose (tensorator (C.m.tensor_unit, X)) (D.compose (D.m.tensorMorphisms identerator.morphism (D.identity (functor X))) (D.m.left_unitor  (functor X))) = functor.onMorphisms (C.m.left_unitor X)  )
---   ( right_identity : ∀ X : C.Obj, D.compose (tensorator (X, C.m.tensor_unit)) (D.compose (D.m.tensorMorphisms (D.identity (functor X)) identerator.morphism) (D.m.right_unitor (functor X))) = functor.onMorphisms (C.m.right_unitor X) )
-structure MonoidalFunctor { C : Category.{u1 v1} } ( m : MonoidalStructure C ) { D : Category.{u2 v2} } ( n : MonoidalStructure D ) :=
-  ( functor : Functor C D )
-  ( tensorator : NaturalIsomorphism (FunctorComposition m.tensor functor) (FunctorComposition (functor × functor) n.tensor) )
-  ( associativity : ∀ X Y Z : C.Obj, 
-      D.compose (tensorator (m (X, Y), Z)) (D.compose (n.tensorMorphisms (tensorator (X, Y)) (D.identity (functor Z))) (n.associator (functor X) (functor Y) (functor Z)))
-      = D.compose (functor.onMorphisms (m.associator X Y Z)) (D.compose (tensorator (X, m (Y, Z))) (n.tensorMorphisms (D.identity (functor X)) (tensorator (Y, Z))))
+section
+variables (C : Type u₁) [𝒞 : monoidal_category.{u₁ v₁} C]
+variables (D : Type u₂) [𝒟 : monoidal_category.{u₂ v₂} D]
+include 𝒞 𝒟 
+
+structure MonoidalFunctor extends Functor C D :=
+  ( tensorator : (𝒞.tensor ⋙ to_Functor) ⇔ ((to_Functor × to_Functor) ⋙ 𝒟.tensor) )
+  ( associativity : ∀ X Y Z : C, 
+      (tensorator.morphism.components (X ⊗ Y, Z)) ≫ ((tensorator.morphism.components (X, Y)) ⊗ (𝟙 (onObjects Z))) ≫ (associator (onObjects X) (onObjects Y) (onObjects Z))
+      = (onMorphisms (associator X Y Z)) ≫ (tensorator.morphism.components (X, Y ⊗ Z)) ≫ ((𝟙 (onObjects X)) ⊗ (tensorator.morphism.components (Y, Z)))
   )
-  ( identerator : Isomorphism D (functor m.tensor_unit) n.tensor_unit)
-  ( left_identity  : ∀ X : C.Obj, D.compose (tensorator (m.tensor_unit, X)) (D.compose (n.tensorMorphisms identerator.morphism (D.identity (functor X))) (n.left_unitor  (functor X))) = functor.onMorphisms (m.left_unitor X)  )
-  ( right_identity : ∀ X : C.Obj, D.compose (tensorator (X, m.tensor_unit)) (D.compose (n.tensorMorphisms (D.identity (functor X)) identerator.morphism) (n.right_unitor (functor X))) = functor.onMorphisms (m.right_unitor X) )
+  ( identerator : (onObjects 𝒞.tensor_unit) ≅ 𝒟.tensor_unit)
+  ( left_identity  : ∀ X : C, (tensorator.morphism.components (𝒞.tensor_unit, X)) ≫ (identerator.morphism ⊗ (𝟙 (onObjects X))) ≫ (left_unitor  (onObjects X)) = onMorphisms (left_unitor X)  )
+  ( right_identity : ∀ X : C, (tensorator.morphism.components (X, 𝒞.tensor_unit)) ≫ ((𝟙 (onObjects X)) ⊗ identerator.morphism) ≫ (right_unitor (onObjects X)) = onMorphisms (right_unitor X) )
   
 attribute [simp,ematch] MonoidalFunctor.left_identity
 attribute [simp,ematch] MonoidalFunctor.right_identity
 attribute [ematch]      MonoidalFunctor.associativity
+end
 
-instance MonoidalFunctor_coercion_to_functor { C : Category.{u1 v1} } ( m : MonoidalStructure C ) { D : Category.{u2 v2} } ( n : MonoidalStructure D ) : has_coe (MonoidalFunctor m n) (Functor C D) :=
-  { coe := MonoidalFunctor.functor }
+section
+variables {C : Type u₁} [𝒞 : monoidal_category.{u₁ v₁} C]
+variables {D : Type u₂} [𝒟 : monoidal_category.{u₂ v₂} D]
+include 𝒞 𝒟 
 
 -- PROJECT composition of MonoidalFunctors
 
 -- PROJECT Automation should construct even the tensorator! Perhaps we need to mark certain transformations and isomorphisms as allowed.
-
--- open tactic
--- open interactive
--- meta def precompose { C : Category } { X Y : C.Obj } ( f : C X Y ) : tactic unit := refine { exact (C.compose f _) }
 
 -- definition MonoidalFunctorComposition
 --   { C : Category.{u1 v1} }
@@ -74,15 +67,11 @@ instance MonoidalFunctor_coercion_to_functor { C : Category.{u1 v1} } ( m : Mono
 --   right_identity := sorry
 -- }
 
-structure MonoidalNaturalTransformation
-  { C : Category.{u1 v1} }
-  { D : Category.{u2 v2} }
-  { m : MonoidalStructure C }
-  { n : MonoidalStructure D }
-  ( F G : MonoidalFunctor m n ) :=
-  ( natural_transformation : NaturalTransformation F.functor G.functor )
-  ( compatibility_with_tensor : ∀ X Y : C.Obj, D.compose (F.tensorator (X, Y)) (n.tensorMorphisms (natural_transformation X) (natural_transformation Y)) = D.compose (natural_transformation (m.tensorObjects X Y)) (G.tensorator (X, Y)) )
-  ( compatibility_with_unit   : D.compose (natural_transformation m.tensor_unit) G.identerator.morphism = F.identerator.morphism )
+structure MonoidalNaturalTransformation ( F G : MonoidalFunctor.{u₁ v₁ u₂ v₂ } C D ) extends NaturalTransformation F.to_Functor G.to_Functor :=
+  ( compatibility_with_tensor : ∀ X Y : C, (F.tensorator.morphism.components (X, Y)) ≫ ((components X) ⊗ (components Y)) = (components (X ⊗ Y)) ≫ (G.tensorator.morphism.components (X, Y)) )
+  ( compatibility_with_unit   : (components 𝒞.tensor_unit) ≫ G.identerator.morphism = F.identerator.morphism )
+
+end
 
 attribute [simp,ematch] MonoidalNaturalTransformation.compatibility_with_tensor
 attribute [simp,ematch] MonoidalNaturalTransformation.compatibility_with_unit
