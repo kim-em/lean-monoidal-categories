@@ -37,17 +37,17 @@ definition tensorObjects (X Y : C) : C := (tensor C) +> (X, Y)
 
 infixr ` ⊗ `:80 := tensorObjects -- type as \otimes
 
-definition tensorMorphisms {W X Y Z : C} (f : W ⟶ X) (g : Y ⟶ Z) : (W ⊗ Y) ⟶ (X ⊗ Z) := 𝒞.tensor &> ⟨f, g⟩
+definition tensorMorphisms {W X Y Z : C} (f : W ⟶ X) (g : Y ⟶ Z) : (W ⊗ Y) ⟶ (X ⊗ Z) := (tensor C) &> ⟨f, g⟩
 
 infixr ` ⊗ `:80 := tensorMorphisms -- type as \otimes
 
-@[reducible] definition left_unitor (X : C) : (𝒞.tensor_unit ⊗ X) ⟶ X := ((left_unitor_transformation C).components X).morphism
+@[reducible] definition left_unitor (X : C) : ((tensor_unit C) ⊗ X) ⟶ X := ((left_unitor_transformation C).components X).morphism
   
-@[reducible] definition right_unitor (X : C) : (X ⊗ 𝒞.tensor_unit) ⟶ X := ((right_unitor_transformation C).components X).morphism
+@[reducible] definition right_unitor (X : C) : (X ⊗ (tensor_unit C)) ⟶ X := ((right_unitor_transformation C).components X).morphism
 
-@[reducible] definition inverse_left_unitor (X : C) : X ⟶ (𝒞.tensor_unit ⊗ X) := 𝒞.left_unitor_transformation.inverse.components X
+@[reducible] definition inverse_left_unitor (X : C) : X ⟶ ((tensor_unit C) ⊗ X) := (left_unitor_transformation C).inverse.components X
   
-@[reducible] definition inverse_right_unitor (X : C) : X ⟶ (X ⊗ 𝒞.tensor_unit) := 𝒞.right_unitor_transformation.inverse.components X
+@[reducible] definition inverse_right_unitor (X : C) : X ⟶ (X ⊗ (tensor_unit C)) := (right_unitor_transformation C).inverse.components X
 
 @[reducible] definition associator (X Y Z : C) : ((X ⊗ Y) ⊗ Z) ⟶ (X ⊗ (Y ⊗ Z)) :=
   ((associator_transformation C).components ⟨⟨X, Y⟩, Z⟩).morphism
@@ -57,11 +57,12 @@ infixr ` ⊗ `:80 := tensorMorphisms -- type as \otimes
 
 variables {U V W X Y Z : C}
 
-@[simp] lemma rewrite_tensor_as_otimes (f : W ⟶ X) (g : Y ⟶ Z) : (tensor C) &> ((f, g) : (W, Y) ⟶ (X, Z)) = f ⊗ g := by refl
+@[simp] lemma rewrite_tensor_as_otimes  (X Y : C) : (tensor C) +> (X, Y) = X ⊗ Y := by refl
+@[simp] lemma rewrite_tensor_as_otimes' (f : W ⟶ X) (g : Y ⟶ Z) : (tensor C) &> ((f, g) : (W, Y) ⟶ (X, Z)) = f ⊗ g := by refl
 
 @[ematch] definition interchange (f : U ⟶ V) (g : V ⟶ W) (h : X ⟶ Y) (k : Y ⟶ Z) :
   (f ≫ g) ⊗ (h ≫ k) = (f ⊗ h) ≫ (g ⊗ k) :=
-  @Functor.functoriality (C × C) _ C _ 𝒞.tensor ⟨U, X⟩ ⟨V, Y⟩ ⟨W, Z⟩ ⟨f, h⟩ ⟨g, k⟩
+  @Functor.functoriality (C × C) _ C _ (tensor C) ⟨U, X⟩ ⟨V, Y⟩ ⟨W, Z⟩ ⟨f, h⟩ ⟨g, k⟩
 
 @[simp,ematch] lemma interchange_left_identity (f : W ⟶ X) (g : X ⟶ Y) :
   (f ⊗ 𝟙 Z) ≫ (g ⊗ 𝟙 Z) = (f ≫ g) ⊗ (𝟙 Z)
@@ -75,12 +76,12 @@ variables {U V W X Y Z : C}
   ((𝟙 Y) ⊗ f) ≫ (g ⊗ (𝟙 X)) = (g ⊗ (𝟙 W)) ≫ ((𝟙 Z) ⊗ f) := by obviously
 
 @[simp,ematch] lemma tensor_identities (X Y : C) :
-   (𝟙 X) ⊗ (𝟙 Y) = 𝟙 (X ⊗ Y) := 𝒞.tensor.identities ⟨X, Y⟩
+   (𝟙 X) ⊗ (𝟙 Y) = 𝟙 (X ⊗ Y) := (tensor C).identities ⟨X, Y⟩
 
 lemma inverse_associator_naturality_0
   (f : U ⟶ V ) (g : W ⟶ X) (h : Y ⟶ Z) : (f ⊗ (g ⊗ h)) ≫ (inverse_associator V X Z) = (inverse_associator U  W Y) ≫ ((f ⊗ g) ⊗ h) :=
   begin
-    apply @NaturalTransformation.naturality _ _ _ _ _ _ ((𝒞.associator_transformation).inverse) ((U, W), Y) ((V, X), Z) ((f, g), h)
+    apply @NaturalTransformation.naturality _ _ _ _ _ _ ((associator_transformation C).inverse) ((U, W), Y) ((V, X), Z) ((f, g), h)
   end
 
 end categories.monoidal_category

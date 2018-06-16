@@ -18,6 +18,9 @@ include 𝒞
 
 local attribute [tidy] dsimp_all'
 
+
+set_option trace.check true
+
 -- TODO tidy this up
 lemma pentagon_in_terms_of_natural_transformations :
   pentagon_3step C = pentagon_2step C :=
@@ -30,8 +33,10 @@ lemma pentagon_in_terms_of_natural_transformations :
     induction WX with W X,
     {
       tidy,
+      -- erw rewrite_tensor_as_otimes, -- FIXME terrifying: equalities between objects are evil, and hence rewriting along them is hard
       have p := monoidal_category.pentagon C W X Y Z,
-      obviously,
+      -- have p := monoidal_category.pentagon C X_fst_fst_fst X_fst_fst_snd X_fst_snd X_snd,
+      obviously, -- FIXME
     },
 end
 

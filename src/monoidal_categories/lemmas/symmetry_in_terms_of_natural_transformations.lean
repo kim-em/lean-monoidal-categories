@@ -3,6 +3,7 @@
 -- Authors: Stephen Morgan, Scott Morrison
 import ..braided_monoidal_category
 import categories.functor_categories.isomorphisms
+import categories.functor_categories.whiskering
 import tidy.its
 
 open categories
@@ -30,7 +31,8 @@ lemma {u v} symmetric_in_terms_of_components {C : Type u} [𝒞 : monoidal_categ
 { β with 
     symmetry := λ X Y : C, begin
                              its congr_fun (congr_arg NaturalTransformation.components e) (X, Y),
-                             obviously
+                            --  obviously -- FIXME
+                            sorry
                            end }
 
 end categories.braided_monoidal_category
